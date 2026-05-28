@@ -494,10 +494,14 @@ func newMerchandisingDeadStockActionsCmd(flags *rootFlags) *cobra.Command {
 			Action    string `json:"suggested_action"`
 		}
 		q := fmt.Sprintf(`
-			WITH sold AS (SELECT DISTINCT json_extract(li.value,'%s') AS sku FROM orders, json_each(json_extract(orders.data,'%s')) li WHERE %s)
-			SELECT inv.sku, COALESCE((SELECT SUM(CAST(json_extract(level.value,'%s') AS REAL)) FROM json_each(json_extract(inv.data,'%s')) level),0) AS available
-			FROM inventory_items inv
-			WHERE available > 0 AND inv.sku NOT IN (SELECT sku FROM sold WHERE sku IS NOT NULL)
+			WITH sold AS (SELECT DISTINCT json_extract(li.value,'%s') AS sku FROM orders, json_each(json_extract(orders.data,'%s')) li WHERE %s),
+			stock AS (
+				SELECT inv.sku, COALESCE((SELECT SUM(CAST(json_extract(level.value,'%s') AS REAL)) FROM json_each(json_extract(inv.data,'%s')) level),0) AS available
+				FROM inventory_items inv
+			)
+			SELECT sku, available
+			FROM stock
+			WHERE available > 0 AND sku NOT IN (SELECT sku FROM sold WHERE sku IS NOT NULL)
 			ORDER BY available DESC
 			LIMIT ?`, jsonLineItemSKU, jsonLineItems, windowClause(days), jsonInventoryQty, jsonInventoryLevels)
 		rows, err := queryRows(db.DB(), q, func(rows *sql.Rows) (row, error) {
