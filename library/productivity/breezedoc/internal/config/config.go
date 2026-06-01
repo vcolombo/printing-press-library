@@ -189,6 +189,8 @@ func (c *Config) SaveAPIToken(apiToken string) error {
 	c.RefreshToken = ""
 	c.TokenExpiry = time.Time{}
 	c.BreezedocApiToken = apiToken
+	c.BreezedocBearerToken = ""
+	c.BreezedocBearerAuth = ""
 	return c.save()
 }
 

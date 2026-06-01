@@ -35,13 +35,29 @@ but do not stop the import.`,
   cat data.jsonl | breezedoc-pp-cli import <resource> --input -`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
+			validResources := map[string]bool{
+				"documents":  true,
+				"invoices":   true,
+				"recipients": true,
+				"templates":  true,
+			}
+			validResourceList := []string{
+				"documents",
+				"invoices",
+				"recipients",
+				"templates",
+			}
+			resource := args[0]
+			if !validResources[resource] {
+				return usageErr(fmt.Errorf("unknown resource %q; valid: %s", resource, strings.Join(validResourceList, ", ")))
+			}
+
 			c, err := flags.newClient()
 			if err != nil {
 				return err
 			}
 			c.DryRun = dryRun
 
-			resource := args[0]
 			path := "/" + resource
 
 			var reader io.Reader

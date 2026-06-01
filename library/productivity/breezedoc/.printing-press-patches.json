@@ -31,9 +31,11 @@
       "files": [
         "internal/client/client.go",
         "internal/config/config.go",
-        "internal/cli/auth.go"
+        "internal/cli/auth.go",
+        "internal/store/store.go",
+        "internal/cli/import.go"
       ],
-      "validated_outcome": "go test ./... passed; go build ./... passed; auth set-token wrote api_token; public-library package, skill, supply-chain, and govulncheck verifiers passed."
+      "validated_outcome": "go test ./... passed; go build ./... passed; auth set-token wrote api_token without persisting alternate bearer env vars; public-library package, skill, supply-chain, and govulncheck verifiers passed."
     }
   ]
 }
