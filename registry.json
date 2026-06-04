@@ -11122,6 +11122,39 @@
       }
     },
     {
+      "name": "walkingpad",
+      "category": "devices",
+      "api": "walkingpad",
+      "description": "WalkingPad device CLI",
+      "search_terms": [
+        "walkingpad",
+        "walkingpad-pp-cli",
+        "Control a WalkingPad treadmill over Bluetooth LE: start and stop the belt, set speed, stream live telemetry, and record walks to a local history store.",
+        "Local walk history",
+        "today",
+        "Keep a permanent local record of every walk — distance, steps, time — that survives the belt's power-cut memory loss.",
+        "Streak tracking",
+        "streak",
+        "See your current consecutive-day walking streak.",
+        "Daily trends",
+        "trends",
+        "Distance, steps, and active minutes per day over a window.",
+        "Calorie estimate",
+        "calories",
+        "Estimate calories burned from your body profile — the number the belt refuses to report.",
+        "Family-generic discovery",
+        "scan",
+        "Find any compatible WalkingPad by its BLE service, not its name."
+      ],
+      "path": "library/devices/walkingpad",
+      "printer": "tmchow",
+      "printer_name": "Trevin Chow",
+      "creator": {
+        "handle": "tmchow",
+        "name": "Trevin Chow"
+      }
+    },
+    {
       "name": "wanderlust-goat",
       "category": "travel",
       "api": "Wanderlust GOAT",
