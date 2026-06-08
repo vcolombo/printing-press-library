@@ -75,6 +75,14 @@ func TestMonitorResultsDedupeAndBriefItems(t *testing.T) {
 	if err != nil || added {
 		t.Fatalf("duplicate save added=%v err=%v", added, err)
 	}
+	exists, err := monitorResultExists(cmd, db, "launch", rec.TweetID)
+	if err != nil || !exists {
+		t.Fatalf("monitorResultExists existing=%v err=%v", exists, err)
+	}
+	exists, err = monitorResultExists(cmd, db, "launch", "99999")
+	if err != nil || exists {
+		t.Fatalf("monitorResultExists missing=%v err=%v", exists, err)
+	}
 	items, err := listMonitorResultItems(cmd, db, "launch", "", 10)
 	if err != nil {
 		t.Fatalf("list monitor results: %v", err)

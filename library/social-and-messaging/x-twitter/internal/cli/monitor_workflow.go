@@ -302,8 +302,16 @@ func runMonitor(cmd *cobra.Command, flags *rootFlags, db *store.Store, def monit
 		}
 		item := collectionItemFromPost(rec, runID)
 		if preview {
-			result.Results = append(result.Results, item)
-			result.NewResults++
+			exists, err := monitorResultExists(cmd, db, def.Name, rec.TweetID)
+			if err != nil {
+				return result, err
+			}
+			if exists {
+				result.SkippedDuplicates++
+			} else {
+				result.Results = append(result.Results, item)
+				result.NewResults++
+			}
 		} else {
 			added, err := saveMonitorResult(cmd, db, def.Name, rec, runID)
 			if err != nil {
@@ -338,6 +346,17 @@ func runMonitor(cmd *cobra.Command, flags *rootFlags, db *store.Store, def monit
 		}
 	}
 	return result, nil
+}
+
+func monitorResultExists(cmd *cobra.Command, db *store.Store, monitor, tweetID string) (bool, error) {
+	var one int
+	err := db.DB().QueryRowContext(cmd.Context(),
+		`SELECT 1 FROM workflow_monitor_results WHERE monitor_name = ? AND tweet_id = ?`,
+		monitor, tweetID).Scan(&one)
+	if err == sql.ErrNoRows {
+		return false, nil
+	}
+	return err == nil, err
 }
 
 func saveMonitorResult(cmd *cobra.Command, db *store.Store, monitor string, rec *resolvedPostRecord, runID string) (bool, error) {
