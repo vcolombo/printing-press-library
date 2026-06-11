@@ -225,6 +225,33 @@
       }
     },
     {
+      "name": "agentpool",
+      "category": "developer-tools",
+      "api": "AgentPool",
+      "description": "AgentPool control-plane companion with setup checks, capacity guidance, and official CLI delegation.",
+      "search_terms": [
+        "agentpool",
+        "agentpool-pp-cli",
+        "AgentPool control-plane companion: inspect coding-agent subscription headroom, run privacy-safe diagnostics, and delegate explicit handoffs through the official agentpool CLI.",
+        "Official CLI Delegation",
+        "exec",
+        "Passes arbitrary arguments through to the official agentpool binary so advanced and newly shipped AgentPool commands remain reachable without wrapper drift.",
+        "AgentPool Onboarding",
+        "install",
+        "Shows the official uv/pipx installation and upgrade path for the Python agentpool-cli package from a catalog-native entrypoint.",
+        "Agent Guidance Bridge",
+        "skill",
+        "Prints the version-matched AgentPool skill guidance from the official AgentPool CLI instead of copying guidance into this wrapper."
+      ],
+      "path": "library/developer-tools/agentpool",
+      "printer": "sidduHERE",
+      "printer_name": "sidduHERE",
+      "creator": {
+        "handle": "sidduHERE",
+        "name": "sidduHERE"
+      }
+    },
+    {
       "name": "ahrefs",
       "category": "marketing",
       "api": "Ahrefs",
@@ -9925,6 +9952,56 @@
       }
     },
     {
+      "name": "shopper",
+      "category": "commerce",
+      "api": "Shopper",
+      "description": "The first CLI for Shopper — every catalog, cart",
+      "search_terms": [
+        "shopper",
+        "shopper-pp-cli",
+        "The first CLI for Shopper — every catalog, cart, and delivery surface plus a local price/basket history the web app throws away each cycle.",
+        "Charge & Edit Calendar",
+        "charge-calendar",
+        "Every upcoming cycle's charge date, edit-lock deadline, and delivery date in one timeline so you never miss an edit window or get surprised by a charge.",
+        "Basket Diff",
+        "Compares your current recurring basket against a previous cycle's snapshot to show exactly what was added, dropped, or re-quantified before the template locks.",
+        "Price Watch",
+        "price-watch",
+        "Tracks the price history of the SKUs you actually buy and alerts when one rises or drops meaningfully versus your own purchase baseline.",
+        "Restock Predictor",
+        "restock predict",
+        "Predicts when you'll run out of each staple from your historical buying cadence and suggests what to add to the upcoming basket.",
+        "Catalog Drift Detector",
+        "catalog drift",
+        "Flags products you buy that were discontinued, silently swapped, or kept their price while shrinking the pack, surfacing the real R$/kg or R$/L change.",
+        "Cashback Threshold Optimizer",
+        "cashback optimize",
+        "Computes the cheapest set of items to add (or whether to wait) to cross the next cashback tier, favoring things you'll need anyway."
+      ],
+      "path": "library/commerce/shopper",
+      "printer": "educrvz",
+      "printer_name": "educrvz",
+      "creator": {
+        "handle": "educrvz",
+        "name": "educrvz"
+      },
+      "mcp": {
+        "binary": "shopper-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 21,
+        "public_tool_count": 0,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "SHOPPER_TOKEN"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "internal"
+      }
+    },
+    {
       "name": "skool",
       "category": "media-and-entertainment",
       "api": "Skool",
@@ -12272,6 +12349,12 @@
         "handle": "gregvanhorn",
         "name": "Greg Van Horn"
       },
+      "contributors": [
+        {
+          "handle": "bobeglz",
+          "name": "Roberto González Grajeda"
+        }
+      ],
       "mcp": {
         "binary": "whoop-pp-mcp",
         "transports": [
