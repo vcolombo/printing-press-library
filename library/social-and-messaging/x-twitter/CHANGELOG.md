@@ -2,6 +2,10 @@
 
 This file is maintained by printing-press-library release automation. Do not hand-edit release sections in normal PRs.
 
+## 2026.6.6 - 2026-06-11
+
+- feat(cli): x-twitter LINK entities, HTML comment stripping, and articles update-md (#1141).
+
 ## 2026.6.5 - 2026-06-09
 
 - fix(x-twitter): require client id for OAuth2 refresh imports (#1124).
