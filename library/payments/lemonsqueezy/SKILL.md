@@ -149,6 +149,15 @@ These capabilities aren't available in any other tool for this API.
 
 ## Command Reference
 
+**agent-native catalog workflows** — Public API capability discovery and dashboard handoffs
+
+- `lemonsqueezy-pp-cli capabilities` — Show public API list/get/create/update/delete support by resource
+- `lemonsqueezy-pp-cli dashboard` — Dashboard-only Lemon Squeezy workflows and handoff packets
+- `lemonsqueezy-pp-cli dashboard handoff` — Generate dashboard handoff artifacts for unsupported public API writes
+- `lemonsqueezy-pp-cli dashboard handoff product` — Generate exact dashboard fields for a product/variant/file setup handoff
+- `lemonsqueezy-pp-cli import <resource>` — Import JSONL records only for API-writable resources; refuses products/variants/files as read-only
+- `lemonsqueezy-pp-cli which [query]` — Resolve natural-language capability requests, including negative catalog guidance
+
 **affiliates** — Manage affiliates
 
 - `lemonsqueezy-pp-cli affiliates get` — Lemon Squeezy Retrieve an affiliate
@@ -156,7 +165,7 @@ These capabilities aren't available in any other tool for this API.
 
 **checkouts** — Manage checkouts
 
-- `lemonsqueezy-pp-cli checkouts create` — Lemon Squeezy Create a checkout
+- `lemonsqueezy-pp-cli checkouts create` — Create a checkout URL for an existing store/variant; supports safe JSON:API dry-run and live preflight validation
 - `lemonsqueezy-pp-cli checkouts get` — Lemon Squeezy Retrieve a checkout
 - `lemonsqueezy-pp-cli checkouts list` — Lemon Squeezy List all checkouts
 
