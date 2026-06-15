@@ -15,16 +15,25 @@
       "command": "${__dirname}/bin/judge-me-pp-mcp",
       "args": [],
       "env": {
-        "JUDGE_ME_PRIVATE_APIKEY": "${user_config.judge_me_private_apikey}"
+        "JUDGE_ME_PRIVATE_APIKEY": "${user_config.judge_me_api_token}",
+        "JUDGE_ME_API_TOKEN": "${user_config.judge_me_api_token}",
+        "JUDGE_ME_SHOP_DOMAIN": "${user_config.judge_me_shop_domain}"
       }
     }
   },
   "user_config": {
-    "judge_me_private_apikey": {
+    "judge_me_api_token": {
       "type": "string",
-      "title": "JUDGE_ME_PRIVATE_APIKEY",
-      "description": "Sets JUDGE_ME_PRIVATE_APIKEY for the Judge Me MCP server. Get a credential from https://help.judge.me/en/articles/8278390-integrating-with-judge-me.",
+      "title": "JUDGE_ME_API_TOKEN",
+      "description": "Judge.me API token sent as X-Api-Token.",
       "sensitive": true,
+      "required": true
+    },
+    "judge_me_shop_domain": {
+      "type": "string",
+      "title": "JUDGE_ME_SHOP_DOMAIN",
+      "description": "Shop domain passed to Judge.me as shop_domain, e.g. example.myshopify.com.",
+      "sensitive": false,
       "required": true
     }
   },
