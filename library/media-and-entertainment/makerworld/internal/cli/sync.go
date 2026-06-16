@@ -7,10 +7,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/mvanhorn/printing-press-library/library/media-and-entertainment/makerworld/internal/cliutil"
-	"github.com/mvanhorn/printing-press-library/library/media-and-entertainment/makerworld/internal/store"
 	"github.com/spf13/cobra"
 	"io"
+	"github.com/mvanhorn/printing-press-library/library/media-and-entertainment/makerworld/internal/cliutil"
+	"github.com/mvanhorn/printing-press-library/library/media-and-entertainment/makerworld/internal/store"
 	"net/url"
 	"os"
 	"regexp"
@@ -1476,14 +1476,17 @@ type dependentPathParamDef struct {
 }
 
 func dependentResourceDefs() []dependentResourceDef {
-	return []dependentResourceDef{
-		{Name: "designs", ParentTable: "designs", ParentIDParam: "design_id", PathTemplate: "/design-service/design/{design_id}/remixed", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "design_id", Field: "design_id"},
-		}},
-		{Name: "designs", ParentTable: "designs", ParentIDParam: "design_id", PathTemplate: "/search-service/design/{design_id}/relate", KeyField: "", PathParams: []dependentPathParamDef{
-			{Param: "design_id", Field: "design_id"},
-		}},
-	}
+	// No dependent-resource sync. The generator inferred parent-scoped sync for
+	// designs/{design_id}/relate and /remixed, but those are served by the live
+	// `designs related` / `designs remixes` endpoint commands (data-source auto),
+	// which need no local mirror. Enabling the dependent sync would fetch /relate
+	// AND /remixed for every synced design on a routine `sync --resources designs`
+	// — hundreds of calls unbounded by --max-pages, half of them wasted because
+	// MakerWorld's /remixed graph is empty. The generator's defs also keyed the
+	// parent field as "design_id" (the path-param name) instead of the parent
+	// design's actual "id" field, so the dependent sync silently no-opped anyway.
+	// Removed deliberately to keep the documented `sync` fast and offline-focused.
+	return nil
 }
 
 // syncDependentResources iterates parent tables and syncs child resources per parent ID.
