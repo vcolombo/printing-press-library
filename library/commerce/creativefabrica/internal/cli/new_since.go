@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"strings"
 
-	"creativefabrica-pp-cli/internal/algolia"
-	"creativefabrica-pp-cli/internal/snapshot"
+	"github.com/mvanhorn/printing-press-library/library/commerce/creativefabrica/internal/algolia"
+	"github.com/mvanhorn/printing-press-library/library/commerce/creativefabrica/internal/snapshot"
 	"github.com/spf13/cobra"
 )
 
