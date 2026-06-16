@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-	"time"
 
 	"github.com/mvanhorn/printing-press-library/library/media-and-entertainment/makerworld/internal/store"
 
@@ -100,10 +99,15 @@ func newNovelMoversCmd(flags *rootFlags) *cobra.Command {
 
 			syncAt := db.GetLastSyncedAt("designs")
 			if syncAt == "" {
-				// No recorded sync timestamp: use a monotonic stamp so distinct
-				// runs don't collide on a constant key, which would permanently
-				// block delta accumulation under INSERT OR IGNORE.
-				syncAt = time.Now().UTC().Format(time.RFC3339Nano)
+				// No sync timestamp (e.g. data loaded via `import`, not `sync`).
+				// movers is a between-syncs feature, so snapshotting against a
+				// fabricated timestamp would grow the table unbounded and yield
+				// always-zero deltas. Require a real sync instead.
+				fmt.Fprintln(cmd.ErrOrStderr(), "movers needs sync-based snapshots; run 'sync' first (imported data has no sync timeline to diff against)")
+				if flags.asJSON || flags.agent {
+					fmt.Fprintln(cmd.OutOrStdout(), "[]")
+				}
+				return nil
 			}
 			if err := db.RecordDesignSnapshots(ctx, syncAt, toSnapshotRows(rows)); err != nil {
 				return err

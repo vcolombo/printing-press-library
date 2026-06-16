@@ -61,3 +61,11 @@ func TestMatchAllTagsNoMatch(t *testing.T) {
 		t.Errorf("no design has both toy+decor, got %d", len(got))
 	}
 }
+
+func TestMatchAllTagsWhitespaceArgs(t *testing.T) {
+	// All-whitespace args must not vacuously match every design.
+	got := matchAllTags(sampleTaggedDesigns(), []string{"  ", "\t"}, 10)
+	if len(got) != 0 {
+		t.Errorf("all-whitespace tags should match nothing, got %d", len(got))
+	}
+}

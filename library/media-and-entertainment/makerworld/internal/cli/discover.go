@@ -278,7 +278,11 @@ func newNovelDiscoverCmd(flags *rootFlags) *cobra.Command {
 				fmt.Fprintf(cmd.ErrOrStderr(), "warning: %d candidate(s) excluded — could not fetch printer-fit detail (network or parse error)\n", enrichFailures)
 			}
 			if enrichCapHit && (flagLimit == 0 || len(result) < flagLimit) {
-				fmt.Fprintf(cmd.ErrOrStderr(), "note: printer-fit enrichment budget (%d) exhausted before filling the result; re-run with a higher --limit or fewer filters\n", enricher.cap)
+				if flagLimit == 0 {
+					fmt.Fprintf(cmd.ErrOrStderr(), "note: printer-fit enrichment is bounded to %d live lookups (live API calls can't be unlimited); pass a specific --limit (e.g. --limit 50) to raise the budget, or use fewer filters\n", enricher.cap)
+				} else {
+					fmt.Fprintf(cmd.ErrOrStderr(), "note: printer-fit enrichment budget (%d) exhausted before filling the result; re-run with a higher --limit or fewer filters\n", enricher.cap)
+				}
 			}
 			if len(result) == 0 {
 				fmt.Fprintf(cmd.ErrOrStderr(), "no designs matched in a local mirror of %d designs; sync more (--max-pages) or relax filters\n", scanned)

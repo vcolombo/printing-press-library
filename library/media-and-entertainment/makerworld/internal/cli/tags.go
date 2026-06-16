@@ -129,6 +129,11 @@ func matchAllTags(designs []taggedDesign, want []string, limit int) []tagMatch {
 		}
 	}
 	out := make([]tagMatch, 0)
+	// No usable tags (e.g. all-whitespace args) must not vacuously match every
+	// design; return no matches so the caller surfaces its empty-result hint.
+	if len(lwant) == 0 {
+		return out
+	}
 	for _, d := range designs {
 		set := make(map[string]bool, len(d.Tags))
 		for _, t := range d.Tags {
