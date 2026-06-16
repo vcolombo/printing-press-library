@@ -2024,7 +2024,10 @@
         "Reconstructs session-level browsing timelines using timestamp gaps and device filters.",
         "Rabbithole Drift Detection",
         "rabbitholes",
-        "Detects sessions that drift from productive starts into distracting browsing patterns."
+        "Detects sessions that drift from productive starts into distracting browsing patterns.",
+        "Accumulating History Archive",
+        "archive",
+        "Opt-in sticky archive that preserves browsing history past Chrome's pruning/clears; sync --accumulate appends, archive enable/disable/status/clobber/reset/vacuum manage it, with scoped read routing so rich Chrome-only commands keep reading the live snapshot."
       ],
       "path": "library/productivity/chrome-history",
       "printer": "vinnyp",
@@ -2039,8 +2042,8 @@
           "stdio",
           "http"
         ],
-        "tool_count": 19,
-        "public_tool_count": 19,
+        "tool_count": 22,
+        "public_tool_count": 22,
         "auth_type": "none",
         "env_vars": [],
         "mcp_ready": "full",
