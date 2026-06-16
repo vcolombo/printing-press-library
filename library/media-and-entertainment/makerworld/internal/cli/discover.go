@@ -242,15 +242,17 @@ func newNovelDiscoverCmd(flags *rootFlags) *cobra.Command {
 				enricher = &fitEnricher{client: c, cap: enrichCap}
 			}
 
-			result := make([]discoverItem, 0, flagLimit)
+			result := make([]discoverItem, 0)
 			enrichFailures := 0
+			enrichCapHit := false
 			for _, r := range filtered {
-				if len(result) >= flagLimit {
+				if flagLimit > 0 && len(result) >= flagLimit {
 					break
 				}
 				item := toDiscoverItem(r)
 				if needEnrich {
 					if enricher.used >= enricher.cap {
+						enrichCapHit = true
 						break
 					}
 					fit, ok := enricher.fetch(ctx, r.ID)
@@ -274,6 +276,9 @@ func newNovelDiscoverCmd(flags *rootFlags) *cobra.Command {
 
 			if needEnrich && enrichFailures > 0 {
 				fmt.Fprintf(cmd.ErrOrStderr(), "warning: %d candidate(s) excluded — could not fetch printer-fit detail (network or parse error)\n", enrichFailures)
+			}
+			if enrichCapHit && (flagLimit == 0 || len(result) < flagLimit) {
+				fmt.Fprintf(cmd.ErrOrStderr(), "note: printer-fit enrichment budget (%d) exhausted before filling the result; re-run with a higher --limit or fewer filters\n", enricher.cap)
 			}
 			if len(result) == 0 {
 				fmt.Fprintf(cmd.ErrOrStderr(), "no designs matched in a local mirror of %d designs; sync more (--max-pages) or relax filters\n", scanned)

@@ -11,6 +11,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"sort"
+
+	"github.com/mvanhorn/printing-press-library/library/media-and-entertainment/makerworld/internal/store"
 )
 
 // designRow is the subset of a synced MakerWorld design used by the novel
@@ -111,56 +113,26 @@ func loadDesignRows(ctx context.Context, sqlDB *sql.DB) ([]designRow, error) {
 	return out, rows.Err()
 }
 
-// ensureSnapshotTable lazily creates the per-sync snapshot table used by movers
-// and designers deltas.
-func ensureSnapshotTable(ctx context.Context, sqlDB *sql.DB) error {
-	_, err := sqlDB.ExecContext(ctx, `
-CREATE TABLE IF NOT EXISTS design_snapshots (
-  sync_at          TEXT NOT NULL,
-  design_id        TEXT NOT NULL,
-  title            TEXT,
-  creator_id       TEXT,
-  creator_name     TEXT,
-  like_count       INTEGER,
-  download_count   INTEGER,
-  print_count      INTEGER,
-  collection_count INTEGER,
-  comment_count    INTEGER,
-  PRIMARY KEY (sync_at, design_id)
-);`)
-	if err != nil {
-		return fmt.Errorf("creating snapshot table: %w", err)
-	}
-	return nil
-}
-
-// recordSnapshot writes the current mirror state tagged with the sync timestamp.
-// INSERT OR IGNORE keeps the first capture per (sync_at, design_id) so repeated
-// command runs against the same sync do not churn the snapshot.
-func recordSnapshot(ctx context.Context, sqlDB *sql.DB, syncAt string, rows []designRow) error {
-	if syncAt == "" || len(rows) == 0 {
-		return nil
-	}
-	tx, err := sqlDB.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-	stmt, err := tx.PrepareContext(ctx, `INSERT OR IGNORE INTO design_snapshots
-		(sync_at, design_id, title, creator_id, creator_name, like_count, download_count, print_count, collection_count, comment_count)
-		VALUES (?,?,?,?,?,?,?,?,?,?)`)
-	if err != nil {
-		_ = tx.Rollback()
-		return err
-	}
-	defer stmt.Close()
+// toSnapshotRows converts mirror rows into store snapshot rows. The
+// design_snapshots table and its serialized writer (Store.RecordDesignSnapshots)
+// live in the store package, created under the migration lock; novel commands no
+// longer create the table or write to the raw handle themselves.
+func toSnapshotRows(rows []designRow) []store.SnapshotRow {
+	out := make([]store.SnapshotRow, 0, len(rows))
 	for _, r := range rows {
-		if _, err := stmt.ExecContext(ctx, syncAt, r.ID, r.Title, r.CreatorID, r.CreatorName,
-			r.Like, r.Download, r.Print, r.Collection, r.Comment); err != nil {
-			_ = tx.Rollback()
-			return err
-		}
+		out = append(out, store.SnapshotRow{
+			DesignID:    r.ID,
+			Title:       r.Title,
+			CreatorID:   r.CreatorID,
+			CreatorName: r.CreatorName,
+			Like:        r.Like,
+			Download:    r.Download,
+			Print:       r.Print,
+			Collection:  r.Collection,
+			Comment:     r.Comment,
+		})
 	}
-	return tx.Commit()
+	return out
 }
 
 // latestTwoSnapshots returns the two most recent distinct snapshot sync

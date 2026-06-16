@@ -98,9 +98,6 @@ func newNovelMoversCmd(flags *rootFlags) *cobra.Command {
 				return nil
 			}
 
-			if err := ensureSnapshotTable(ctx, db.DB()); err != nil {
-				return err
-			}
 			syncAt := db.GetLastSyncedAt("designs")
 			if syncAt == "" {
 				// No recorded sync timestamp: use a monotonic stamp so distinct
@@ -108,7 +105,7 @@ func newNovelMoversCmd(flags *rootFlags) *cobra.Command {
 				// block delta accumulation under INSERT OR IGNORE.
 				syncAt = time.Now().UTC().Format(time.RFC3339Nano)
 			}
-			if err := recordSnapshot(ctx, db.DB(), syncAt, rows); err != nil {
+			if err := db.RecordDesignSnapshots(ctx, syncAt, toSnapshotRows(rows)); err != nil {
 				return err
 			}
 
