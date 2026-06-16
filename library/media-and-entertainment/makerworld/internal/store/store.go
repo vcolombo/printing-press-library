@@ -1670,14 +1670,21 @@ func (s *Store) GetSyncState(resourceType string) (cursor string, lastSynced tim
 }
 
 // SaveSyncCursor stores the pagination cursor for a resource type.
+//
+// last_synced_at is written as RFC3339 (UTC) to match SaveSyncState. SQLite's
+// CURRENT_TIMESTAMP produced a space-separated, suffix-less format
+// ("2026-06-15 23:59:59") that string-sorts inconsistently against the RFC3339
+// values SaveSyncState writes to the same column, corrupting the sync_at
+// ordering that GetLastSyncedAt-derived snapshots (movers/deltas) rely on.
 func (s *Store) SaveSyncCursor(resourceType, cursor string) error {
 	s.writeMu.Lock()
 	defer s.writeMu.Unlock()
+	now := time.Now().UTC().Format(time.RFC3339)
 	_, err := s.db.Exec(
 		`INSERT INTO sync_state (resource_type, last_cursor, last_synced_at, total_count)
-		 VALUES (?, ?, CURRENT_TIMESTAMP, 0)
-		 ON CONFLICT(resource_type) DO UPDATE SET last_cursor = ?, last_synced_at = CURRENT_TIMESTAMP`,
-		resourceType, cursor, cursor,
+		 VALUES (?, ?, ?, 0)
+		 ON CONFLICT(resource_type) DO UPDATE SET last_cursor = ?, last_synced_at = ?`,
+		resourceType, cursor, now, cursor, now,
 	)
 	return err
 }
