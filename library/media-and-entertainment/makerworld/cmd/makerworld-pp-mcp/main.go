@@ -28,7 +28,7 @@ var version = "0.0.0-dev"
 
 func main() {
 	s := server.NewMCPServer(
-		"Makerworld",
+		"MakerWorld",
 		version,
 		server.WithToolCapabilities(false),
 	)

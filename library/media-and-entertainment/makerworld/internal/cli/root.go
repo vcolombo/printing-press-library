@@ -137,8 +137,8 @@ func isCobraUsageError(err error) bool {
 func newRootCmd(flags *rootFlags) *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:   "makerworld-pp-cli",
-		Short: `Makerworld CLI — Every MakerWorld model, searchable offline — plus trend deltas, designer-watch, and multi-tag discovery no scraper or the web…`,
-		Long: `Makerworld CLI — Every MakerWorld model, searchable offline — plus trend deltas, designer-watch, and multi-tag discovery no scraper or the web…
+		Short: `MakerWorld CLI — Every MakerWorld model, searchable offline — plus trend deltas, designer-watch, and multi-tag discovery no scraper or the web UI offers.`,
+		Long: `MakerWorld CLI — Every MakerWorld model, searchable offline — plus trend deltas, designer-watch, and multi-tag discovery no scraper or the web UI offers.
 
 Highlights (not in the official API docs):
   • discover   Find models that are both highly rated and printable on your setup, ranked by a composite quality score from your local mirror; constrain with --printable, --no-ams, --material, or --max-weight.
