@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var version = "0.0.0-dev"
+var version = "2026.6.1"
 
 type config struct {
 	baseURL string
