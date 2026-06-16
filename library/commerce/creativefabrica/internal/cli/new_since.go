@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mvanhorn/printing-press-library/library/commerce/creativefabrica/internal/algolia"
-	"github.com/mvanhorn/printing-press-library/library/commerce/creativefabrica/internal/snapshot"
+	"creativefabrica-pp-cli/internal/algolia"
+	"creativefabrica-pp-cli/internal/snapshot"
 	"github.com/spf13/cobra"
 )
 
@@ -42,9 +42,6 @@ This tracks the public catalog, not a personal library (which is not in scope).`
 			}
 			key := "q:" + query + "|d:" + designer + "|t:" + itemType
 			store := snapshot.Open("")
-			if reset {
-				_ = store.Put(key, nil)
-			}
 
 			ctx, cancel := boundCtx(cmd.Context(), flags)
 			defer cancel()
@@ -70,10 +67,16 @@ This tracks the public catalog, not a personal library (which is not in scope).`
 			prior, seeded := store.Get(key)
 			_ = store.Put(key, ids)
 
-			if !seeded {
-				msg := fmt.Sprintf("seeded snapshot for this tracker (%d items); re-run later to see what's new", len(ids))
+			// --reset re-seeds the baseline rather than diffing against the old
+			// (or an empty) one, so it never reports every current item as "new".
+			if reset || !seeded {
+				verb := "seeded"
+				if reset {
+					verb = "reset"
+				}
+				msg := fmt.Sprintf("%s snapshot for this tracker (%d items); re-run later to see what's new", verb, len(ids))
 				if flags.asJSON || flags.agent {
-					return flags.printJSON(cmd, map[string]any{"seeded": true, "tracked": len(ids), "new": []productView{}, "note": msg})
+					return flags.printJSON(cmd, map[string]any{"seeded": true, "reset": reset, "tracked": len(ids), "new": []productView{}, "note": msg})
 				}
 				fmt.Fprintln(cmd.OutOrStdout(), msg)
 				return nil
