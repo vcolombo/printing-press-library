@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/mvanhorn/printing-press-library/library/commerce/grubhub/internal/grubhub"
 	"github.com/spf13/cobra"
+	"github.com/mvanhorn/printing-press-library/library/commerce/grubhub/internal/grubhub"
 )
 
 type pickRow struct {
@@ -116,12 +116,15 @@ func scorePicks(rows []restaurantRow, w scoreWeights) []pickRow {
 	}
 	minFee, maxFee := rows[0].DeliveryFeeCents, rows[0].DeliveryFeeCents
 	minETA, maxETA := rows[0].ETAMinutes, rows[0].ETAMinutes
+	minRating, maxRating := rows[0].Rating, rows[0].Rating
 	maxDeals := 0
 	for _, r := range rows {
 		minFee = min(minFee, r.DeliveryFeeCents)
 		maxFee = max(maxFee, r.DeliveryFeeCents)
 		minETA = min(minETA, r.ETAMinutes)
 		maxETA = max(maxETA, r.ETAMinutes)
+		minRating = min(minRating, r.Rating)
+		maxRating = max(maxRating, r.Rating)
 		maxDeals = max(maxDeals, r.Deals)
 	}
 	totalWeight := w.fee + w.eta + w.rating + w.deal
@@ -132,7 +135,7 @@ func scorePicks(rows []restaurantRow, w scoreWeights) []pickRow {
 	for _, r := range rows {
 		feeScore := normLowerBetter(float64(r.DeliveryFeeCents), float64(minFee), float64(maxFee))
 		etaScore := normLowerBetter(float64(r.ETAMinutes), float64(minETA), float64(maxETA))
-		ratingScore := r.Rating / 5.0
+		ratingScore := normHigherBetter(r.Rating, minRating, maxRating)
 		dealScore := 0.0
 		if maxDeals > 0 {
 			dealScore = float64(r.Deals) / float64(maxDeals)
@@ -164,6 +167,15 @@ func normLowerBetter(v, lo, hi float64) float64 {
 		return 1
 	}
 	return 1 - (v-lo)/(hi-lo)
+}
+
+// normHigherBetter min-max normalizes a value where higher is better, so the
+// rating component is candidate-relative and comparable to the fee/eta weights.
+func normHigherBetter(v, lo, hi float64) float64 {
+	if hi <= lo {
+		return 1
+	}
+	return (v - lo) / (hi - lo)
 }
 
 func round1(v float64) float64 {

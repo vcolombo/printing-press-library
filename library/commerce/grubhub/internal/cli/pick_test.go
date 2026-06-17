@@ -56,3 +56,15 @@ func TestNormLowerBetter(t *testing.T) {
 		t.Errorf("degenerate range should score 1, got %v", got)
 	}
 }
+
+func TestNormHigherBetter(t *testing.T) {
+	if got := normHigherBetter(10, 0, 10); got != 1 {
+		t.Errorf("max value should score 1, got %v", got)
+	}
+	if got := normHigherBetter(0, 0, 10); got != 0 {
+		t.Errorf("min value should score 0, got %v", got)
+	}
+	if got := normHigherBetter(4.5, 4.5, 4.5); got != 1 {
+		t.Errorf("degenerate range should score 1, got %v", got)
+	}
+}
