@@ -5240,6 +5240,59 @@
       }
     },
     {
+      "name": "google-play",
+      "category": "marketing",
+      "api": "Google Play",
+      "description": "Every public Google Play surface in one Go binary, plus a local SQLite mirror for rank history and listing change detection that no other Play tool keeps.",
+      "search_terms": [
+        "google-play",
+        "Google Play",
+        "google-play-pp-cli",
+        "Every public Google Play surface in one Go binary, plus a local SQLite mirror for rank history and listing change detection that no other Play tool keeps.",
+        "Chart movers",
+        "movers",
+        "See which games climbed, dropped, entered, or fell off a Play chart between two snapshots.",
+        "Chart rank history",
+        "rank-history",
+        "Show one app's rank trajectory over time within a chart, including first-seen, peak, and last-seen rank.",
+        "Listing change detection",
+        "watch-listing",
+        "Diff the two latest snapshots of a listing to surface what changed: title, icon, version, IAP range, ads flag, price, screenshots.",
+        "Keyword rank capture",
+        "keyword-rank",
+        "Run a live store search for a term and record where a target app ranks, persisting the data point for trend analysis.",
+        "Keyword rank history",
+        "keyword-history",
+        "Show the rank-over-time series for a term, app, and country from captured keyword snapshots.",
+        "Review digest",
+        "review-digest",
+        "Aggregate synced reviews into star and per-version histograms, developer reply rate, and complaint-term frequency, with no NLP.",
+        "Compare apps",
+        "compare",
+        "Fetch details for several apps and lay their key fields side by side in one table."
+      ],
+      "path": "library/marketing/google-play",
+      "printer": "qazmataz",
+      "printer_name": "Hamza Qazi",
+      "creator": {
+        "handle": "qazmataz",
+        "name": "Hamza Qazi"
+      },
+      "mcp": {
+        "binary": "google-play-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 1,
+        "public_tool_count": 1,
+        "auth_type": "none",
+        "env_vars": [],
+        "mcp_ready": "full",
+        "spec_format": "internal"
+      }
+    },
+    {
       "name": "google-search-console",
       "category": "marketing",
       "api": "Google Search Console",
@@ -8916,6 +8969,46 @@
         ],
         "mcp_ready": "partial",
         "spec_format": "internal"
+      }
+    },
+    {
+      "name": "podcastindex",
+      "category": "media-and-entertainment",
+      "api": "PodcastIndex",
+      "description": "The only PodcastIndex tool that is agent-native and works offline: search, resolve, and analyse any podcast from one signed binary with a local mirror you can FTS and SQL.",
+      "search_terms": [
+        "podcastindex",
+        "podcastindex-pp-cli",
+        "The only PodcastIndex tool that is agent-native and works offline: search, resolve, and analyse any podcast from one signed binary with a local mirror you can FTS and SQL.",
+        "Transcript grep",
+        "tgrep",
+        "Search inside actual episode transcripts, not just titles and descriptions."
+      ],
+      "path": "library/media-and-entertainment/podcastindex",
+      "printer": "adbonnet",
+      "printer_name": "adbonnet",
+      "creator": {
+        "handle": "adbonnet",
+        "name": "adbonnet"
+      },
+      "mcp": {
+        "binary": "podcastindex-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 52,
+        "public_tool_count": 19,
+        "auth_type": "api_key",
+        "env_vars": [
+          "PODCASTINDEX_KEY",
+          "PODCASTINDEX_ORG_API_KEY",
+          "PODCASTINDEX_ORG_AUTHORIZATION",
+          "PODCASTINDEX_ORG_DATE",
+          "PODCASTINDEX_ORG_USER_AGENT"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
       }
     },
     {
