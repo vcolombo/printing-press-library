@@ -55,11 +55,19 @@ and full resync. After archiving, use 'search' for instant full-text search.`,
 			}
 			defer s.Close()
 
-			resources := []string{}
+			resources := knownSyncResourceNames()
 			totalSynced := 0
 			syncEventWriter := cmd.OutOrStdout()
 			if flags.asJSON {
 				syncEventWriter = cmd.ErrOrStderr()
+			}
+
+			if len(resources) == 0 {
+				if humanFriendly {
+					fmt.Fprintln(cmd.ErrOrStderr(), "amplitude-pp-cli workflow archive: no sync resources in spec; populate the store via single-fetch commands.")
+				} else {
+					fmt.Fprintln(syncEventWriter, `{"event":"sync_warning","reason":"no_bulk_list_endpoints","detail":"no sync resources in spec; populate the store via single-fetch commands"}`)
+				}
 			}
 
 			// --full clears the cursor here because syncResource reads

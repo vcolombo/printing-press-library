@@ -144,6 +144,59 @@ func TestAmplitudeJSONReadCommandsAllowAgentOutput(t *testing.T) {
 	}
 }
 
+func TestWorkflowArchiveUsesKnownSyncResources(t *testing.T) {
+	requested := map[string]int{}
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requested[r.URL.Path]++
+		w.Header().Set("Content-Type", "application/json")
+		fmt.Fprintf(w, `[{"id":%q,"name":"ok"}]`, r.URL.Path)
+	}))
+	defer server.Close()
+
+	t.Setenv("AMPLITUDE_BASE_URL", server.URL)
+	t.Setenv("AMPLITUDE_CONFIG", filepath.Join(t.TempDir(), "config.toml"))
+	t.Setenv("AMPLITUDE_USERNAME", "api-key")
+	t.Setenv("AMPLITUDE_PASSWORD", "secret-key")
+
+	dbPath := filepath.Join(t.TempDir(), "archive.db")
+	cmd := RootCmd()
+	var stdout, stderr bytes.Buffer
+	cmd.SetOut(&stdout)
+	cmd.SetErr(&stderr)
+	cmd.SetArgs([]string{"--json", "workflow", "archive", "--db", dbPath})
+
+	if err := cmd.Execute(); err != nil {
+		t.Fatalf("workflow archive returned error: %v\nstderr=%s\nstdout=%s", err, stderr.String(), stdout.String())
+	}
+
+	var summary struct {
+		ResourcesSynced int `json:"resources_synced"`
+		TotalItems      int `json:"total_items"`
+	}
+	if err := json.Unmarshal(stdout.Bytes(), &summary); err != nil {
+		t.Fatalf("workflow archive output is not JSON: %v\nstdout=%s", err, stdout.String())
+	}
+	wantResources := len(knownSyncResourceNames())
+	if summary.ResourcesSynced != wantResources {
+		t.Fatalf("resources_synced = %d, want %d\nstdout=%s\nstderr=%s", summary.ResourcesSynced, wantResources, stdout.String(), stderr.String())
+	}
+	if summary.TotalItems != wantResources {
+		t.Fatalf("total_items = %d, want %d\nstdout=%s\nstderr=%s", summary.TotalItems, wantResources, stdout.String(), stderr.String())
+	}
+	for _, resource := range knownSyncResourceNames() {
+		path, err := syncResourcePath(resource)
+		if err != nil {
+			t.Fatalf("syncResourcePath(%q): %v", resource, err)
+		}
+		if requested[path] == 0 {
+			t.Fatalf("workflow archive did not request %s for resource %s; requested=%v", path, resource, requested)
+		}
+	}
+	if strings.Contains(stdout.String()+stderr.String(), "Archived 0 items across 0 resources") {
+		t.Fatalf("workflow archive still reported zero-resource success\nstdout=%s\nstderr=%s", stdout.String(), stderr.String())
+	}
+}
+
 // TestFilterFields covers --select projection against the four payload
 // shapes printed CLIs see in practice: bare arrays, direct objects,
 // list envelopes (Stripe/GitHub/Notion-style wrapper + array), and
