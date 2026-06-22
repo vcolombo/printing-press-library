@@ -82,13 +82,9 @@ func Execute() error {
 		if idx := strings.Index(msg, "unknown flag: "); idx >= 0 {
 			flagStr := strings.TrimSpace(msg[idx+len("unknown flag: "):])
 			if suggestion := suggestFlag(flagStr, rootCmd); suggestion != "" {
-				// Cobra already printed `Error: unknown flag: --foob` before
-				// returning; the wrap below attaches the hint to err.Error()
-				// for downstream consumers and exit-code classification, but
-				// would never reach stderr now that main.go no longer prints
-				// err. Emit the hint explicitly so the suggestion still
-				// shows up under Cobra's error line.
-				fmt.Fprintf(os.Stderr, "hint: did you mean --%s?\n", suggestion)
+				// SilenceErrors is set, so finalizeError below is the single
+				// printer; wrapping puts the hint on both the human stderr
+				// line and the JSON envelope's "error" field.
 				err = fmt.Errorf("%w\nhint: did you mean --%s?", err, suggestion)
 			}
 		}
@@ -108,13 +104,7 @@ func Execute() error {
 		// usage errors that the helpers.go contract already promises.
 		err = usageErr(err)
 	}
-	if err != nil {
-		if flags.asJSON && !flags.errorWritten {
-			writeCLIErrorEnvelope(&flags, err, ExitCode(err))
-		} else if !flags.asJSON {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-		}
-	}
+	finalizeError(&flags, os.Args[1:], os.Stdout, os.Stderr, err)
 	return err
 }
 
@@ -317,6 +307,7 @@ See README.md or the bundled SKILL.md for recipes.`,
 
 	// v3-ported top-level commands
 	rootCmd.AddCommand(newIssuesCmd(flags))
+	rootCmd.AddCommand(newWorkflowStatesCmd(flags))
 	rootCmd.AddCommand(newCommentsCmd(flags))
 	rootCmd.AddCommand(newDocumentsCmd(flags))
 	rootCmd.AddCommand(newLabelsCmd(flags))
