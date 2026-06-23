@@ -456,7 +456,11 @@ func TestValidateEntries(t *testing.T) {
 		// error report. Using substrings avoids brittle exact-match coupling
 		// to the error-message phrasing while still pinning slug + field.
 		wantSubstrs []string
-		wantOK      bool
+		// notSubstrs is a set of substrings that must NOT appear — used to pin
+		// that a check is intentionally skipped (e.g. the unreleased release
+		// trio on a blank skeleton).
+		notSubstrs []string
+		wantOK     bool
 	}{
 		{
 			name: "valid entry passes",
@@ -569,19 +573,52 @@ func TestValidateEntries(t *testing.T) {
 			wantOK: true,
 		},
 		{
-			name: "release block required fields fail when blank",
+			// An unreleased skeleton (the shape every fresh print ships) carries
+			// a cli_name but leaves version/released_at/source_commit blank until
+			// the post-merge release workflow stamps them. source_commit is the
+			// merge commit, so it cannot exist while the PR is open — validating
+			// the trio pre-merge would fail every incoming publish PR.
+			name: "unreleased blank skeleton passes",
+			entries: []RegistryEntry{
+				{
+					Name: "artistly", Category: "ai", API: "Artistly", Description: "Has desc.", Path: "library/ai/artistly",
+					Release: &Release{CLIName: "artistly-pp-cli", Version: "", ReleasedAt: "", SourceCommit: ""},
+				},
+			},
+			wantOK: true,
+		},
+		{
+			// cli_name is still required even on an unreleased skeleton, but the
+			// post-merge trio stays skipped while all three are blank.
+			name: "blank skeleton still requires cli_name, skips unreleased trio",
 			entries: []RegistryEntry{
 				{
 					Name: "x", Category: "tools", API: "X", Description: "Has desc.", Path: "library/tools/x",
 					Release: &Release{CLIName: " ", Version: "", ReleasedAt: "	", SourceCommit: "\n"},
 				},
 			},
-			wantSubstrs: []string{
-				"x: release.cli_name is empty",
+			wantSubstrs: []string{"x: release.cli_name is empty"},
+			notSubstrs: []string{
 				"x: release.version is empty",
 				"x: release.released_at is empty",
 				"x: release.source_commit is empty",
 			},
+		},
+		{
+			// Once the ledger claims a release (any field populated), the rest of
+			// the trio must be present — a partially-stamped entry is corruption.
+			name: "partially-released entry fails for missing trio fields",
+			entries: []RegistryEntry{
+				{
+					Name: "x", Category: "tools", API: "X", Description: "Has desc.", Path: "library/tools/x",
+					Release: &Release{CLIName: "x-pp-cli", Version: "2026.6.23", ReleasedAt: "", SourceCommit: ""},
+				},
+			},
+			wantSubstrs: []string{
+				"x: release.released_at is empty",
+				"x: release.source_commit is empty",
+			},
+			notSubstrs: []string{"x: release.version is empty"},
 		},
 		{
 			name: "unnamed entry reports under (unnamed) prefix",
@@ -596,6 +633,11 @@ func TestValidateEntries(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			got := validateEntries(tc.entries)
 			joined := strings.Join(got, "\n")
+			for _, sub := range tc.notSubstrs {
+				if strings.Contains(joined, sub) {
+					t.Errorf("validateEntries: unexpected substring %q in output:\n%s", sub, joined)
+				}
+			}
 			if tc.wantOK {
 				if len(got) != 0 {
 					t.Fatalf("validateEntries: want no errors, got:\n%s", joined)

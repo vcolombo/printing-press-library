@@ -611,14 +611,28 @@ func validateEntries(entries []RegistryEntry) []string {
 			if isBlank(e.Release.CLIName) {
 				errs = append(errs, fmt.Sprintf("%s: release.cli_name is empty", slug))
 			}
-			if isBlank(e.Release.Version) {
-				errs = append(errs, fmt.Sprintf("%s: release.version is empty", slug))
-			}
-			if isBlank(e.Release.ReleasedAt) {
-				errs = append(errs, fmt.Sprintf("%s: release.released_at is empty", slug))
-			}
-			if isBlank(e.Release.SourceCommit) {
-				errs = append(errs, fmt.Sprintf("%s: release.source_commit is empty", slug))
+			// version, released_at, and source_commit are stamped by the
+			// post-merge release workflow — source_commit is the merge commit,
+			// which cannot exist while the PR is still open. A freshly-printed
+			// CLI therefore ships them blank, and that unreleased skeleton (all
+			// three empty) is valid: rejecting it would fail every incoming
+			// publish PR for metadata that is impossible to populate pre-merge.
+			// Validate the trio only once the ledger claims a release (any one
+			// populated), which still catches a partially-stamped or corrupted
+			// released entry.
+			released := !isBlank(e.Release.Version) ||
+				!isBlank(e.Release.ReleasedAt) ||
+				!isBlank(e.Release.SourceCommit)
+			if released {
+				if isBlank(e.Release.Version) {
+					errs = append(errs, fmt.Sprintf("%s: release.version is empty", slug))
+				}
+				if isBlank(e.Release.ReleasedAt) {
+					errs = append(errs, fmt.Sprintf("%s: release.released_at is empty", slug))
+				}
+				if isBlank(e.Release.SourceCommit) {
+					errs = append(errs, fmt.Sprintf("%s: release.source_commit is empty", slug))
+				}
 			}
 		}
 	}
