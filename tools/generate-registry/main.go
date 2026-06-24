@@ -422,7 +422,14 @@ func buildEntry(dir, category, slug string, existing map[string]RegistryEntry) (
 	entry.SearchTerms = searchTerms(pp)
 	if release, err := readRelease(filepath.Join(dir, ".printing-press-release.json")); err != nil {
 		return nil, err
-	} else if release != nil {
+	} else if release != nil && !isUnreleasedSkeleton(release) {
+		// Skip an unreleased skeleton (version/released_at/source_commit all
+		// blank, before the post-merge release workflow stamps them). Emitting
+		// it would put a release block with empty required fields into
+		// registry.json, which the npm installer's parseRegistryEntry rejects as
+		// malformed — skipping the whole CLI. Omitting it keeps the generated
+		// registry, the --validate gate, and the npm parser consistent: a
+		// release block is present only once the CLI is actually released.
 		entry.Release = release
 	}
 
@@ -446,6 +453,21 @@ func buildEntry(dir, category, slug string, existing map[string]RegistryEntry) (
 	}
 
 	return &entry, nil
+}
+
+// isUnreleasedSkeleton reports whether a release ledger is a freshly-printed
+// skeleton not yet stamped by the post-merge release workflow: version,
+// released_at, and source_commit are all blank. cli_name is written at print
+// time, so it is not part of the signal. source_commit is the merge commit and
+// cannot exist while a publish PR is open, so an unreleased skeleton is the
+// normal pre-merge state and is treated as "no release block" for the catalog —
+// the registry omits it rather than emitting empty required fields that the npm
+// installer's parseRegistryEntry would reject.
+func isUnreleasedSkeleton(r *Release) bool {
+	return r != nil &&
+		strings.TrimSpace(r.Version) == "" &&
+		strings.TrimSpace(r.ReleasedAt) == "" &&
+		strings.TrimSpace(r.SourceCommit) == ""
 }
 
 func readRelease(path string) (*Release, error) {
@@ -611,28 +633,14 @@ func validateEntries(entries []RegistryEntry) []string {
 			if isBlank(e.Release.CLIName) {
 				errs = append(errs, fmt.Sprintf("%s: release.cli_name is empty", slug))
 			}
-			// version, released_at, and source_commit are stamped by the
-			// post-merge release workflow — source_commit is the merge commit,
-			// which cannot exist while the PR is still open. A freshly-printed
-			// CLI therefore ships them blank, and that unreleased skeleton (all
-			// three empty) is valid: rejecting it would fail every incoming
-			// publish PR for metadata that is impossible to populate pre-merge.
-			// Validate the trio only once the ledger claims a release (any one
-			// populated), which still catches a partially-stamped or corrupted
-			// released entry.
-			released := !isBlank(e.Release.Version) ||
-				!isBlank(e.Release.ReleasedAt) ||
-				!isBlank(e.Release.SourceCommit)
-			if released {
-				if isBlank(e.Release.Version) {
-					errs = append(errs, fmt.Sprintf("%s: release.version is empty", slug))
-				}
-				if isBlank(e.Release.ReleasedAt) {
-					errs = append(errs, fmt.Sprintf("%s: release.released_at is empty", slug))
-				}
-				if isBlank(e.Release.SourceCommit) {
-					errs = append(errs, fmt.Sprintf("%s: release.source_commit is empty", slug))
-				}
+			if isBlank(e.Release.Version) {
+				errs = append(errs, fmt.Sprintf("%s: release.version is empty", slug))
+			}
+			if isBlank(e.Release.ReleasedAt) {
+				errs = append(errs, fmt.Sprintf("%s: release.released_at is empty", slug))
+			}
+			if isBlank(e.Release.SourceCommit) {
+				errs = append(errs, fmt.Sprintf("%s: release.source_commit is empty", slug))
 			}
 		}
 	}
