@@ -449,11 +449,12 @@ func TestIsUnreleasedSkeleton(t *testing.T) {
 		want bool
 	}{
 		{"nil release is not a skeleton", nil, false},
-		{"blank trio is an unreleased skeleton", &Release{CLIName: "x-pp-cli"}, true},
+		{"cli_name set + blank trio is an unreleased skeleton", &Release{CLIName: "x-pp-cli"}, true},
 		{"whitespace-only trio is an unreleased skeleton", &Release{CLIName: "x-pp-cli", Version: "  ", ReleasedAt: "\t", SourceCommit: "\n"}, true},
-		{"cli_name alone does not count as released", &Release{CLIName: "x-pp-cli"}, true},
+		{"blank cli_name + blank trio is malformed, not a clean skeleton", &Release{}, false},
+		{"whitespace cli_name + blank trio is malformed, not a clean skeleton", &Release{CLIName: "  "}, false},
 		{"version set means released", &Release{CLIName: "x-pp-cli", Version: "2026.6.3"}, false},
-		{"source_commit set means released", &Release{SourceCommit: "abc123"}, false},
+		{"source_commit set means released", &Release{CLIName: "x-pp-cli", SourceCommit: "abc123"}, false},
 	}
 	for _, tc := range cases {
 		if got := isUnreleasedSkeleton(tc.r); got != tc.want {
@@ -508,6 +509,43 @@ func TestBuildEntriesOmitsReleaseForUnreleasedSkeleton(t *testing.T) {
 	// via the e.Release == nil path — no false positive on the pre-merge state.
 	if errs := validateEntries(entries); len(errs) != 0 {
 		t.Errorf("validateEntries on built entries: want no errors, got %v", errs)
+	}
+}
+
+// A malformed ledger — trio blank but cli_name ALSO blank (e.g. a printer
+// workflow misfire) — must not be silently omitted. It is kept as a non-nil
+// release block so validateEntries still flags the empty cli_name, preserving
+// the pre-existing gate that the skeleton-omission must not weaken.
+func TestBuildEntriesKeepsReleaseForBlankCLINameSkeleton(t *testing.T) {
+	root := t.TempDir()
+	dir := filepath.Join(root, "ai", "broken")
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, ".printing-press.json"),
+		[]byte(`{"display_name":"Broken","api_name":"broken","description":"Does things."}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, ".printing-press-release.json"),
+		[]byte(`{"cli_name":"","version":"","released_at":"","source_commit":""}`), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	entries, err := buildEntries(root, map[string]RegistryEntry{})
+	if err != nil {
+		t.Fatalf("buildEntries: %v", err)
+	}
+	var rel *Release
+	for _, e := range entries {
+		if e.Name == "broken" {
+			rel = e.Release
+		}
+	}
+	if rel == nil {
+		t.Fatal("blank cli_name skeleton: release block must be kept (not omitted) so validation can flag it")
+	}
+	if errs := validateEntries(entries); !strings.Contains(strings.Join(errs, "\n"), "broken: release.cli_name is empty") {
+		t.Errorf("want a release.cli_name error for the malformed skeleton, got: %v", errs)
 	}
 }
 

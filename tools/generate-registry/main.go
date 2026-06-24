@@ -455,16 +455,22 @@ func buildEntry(dir, category, slug string, existing map[string]RegistryEntry) (
 	return &entry, nil
 }
 
-// isUnreleasedSkeleton reports whether a release ledger is a freshly-printed
-// skeleton not yet stamped by the post-merge release workflow: version,
-// released_at, and source_commit are all blank. cli_name is written at print
-// time, so it is not part of the signal. source_commit is the merge commit and
-// cannot exist while a publish PR is open, so an unreleased skeleton is the
-// normal pre-merge state and is treated as "no release block" for the catalog —
-// the registry omits it rather than emitting empty required fields that the npm
+// isUnreleasedSkeleton reports whether a release ledger is a well-formed
+// freshly-printed skeleton not yet stamped by the post-merge release workflow:
+// cli_name is present (written at print time) while version, released_at, and
+// source_commit are all blank. source_commit is the merge commit and cannot
+// exist while a publish PR is open, so an unreleased skeleton is the normal
+// pre-merge state and is treated as "no release block" for the catalog — the
+// registry omits it rather than emitting empty required fields that the npm
 // installer's parseRegistryEntry would reject.
+//
+// cli_name is required for the skeleton classification so a malformed ledger
+// with a blank cli_name is NOT silently omitted: it stays a non-nil release
+// block and validateEntries still flags the empty cli_name, preserving the
+// pre-existing gate against a printer-workflow misfire.
 func isUnreleasedSkeleton(r *Release) bool {
 	return r != nil &&
+		strings.TrimSpace(r.CLIName) != "" &&
 		strings.TrimSpace(r.Version) == "" &&
 		strings.TrimSpace(r.ReleasedAt) == "" &&
 		strings.TrimSpace(r.SourceCommit) == ""
