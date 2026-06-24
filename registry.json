@@ -8106,6 +8106,15 @@
         "Project Burndown",
         "projects burndown",
         "Project a project's landing date by linear-regressing remaining estimate against the team's measured velocity.",
+        "Project Inventory",
+        "projects list",
+        "List Linear projects live, optionally scoped by team, before attaching or auditing portfolio work.",
+        "Project Search",
+        "projects search",
+        "Search Linear projects live by name with an optional team filter.",
+        "Project Name Resolution",
+        "projects resolve",
+        "Resolve one Linear project name to a UUID, preferring exact matches and supporting team scoping.",
         "Cycle Comparison",
         "cycles compare",
         "Side-by-side metrics between any two cycles: completion %, scope added, scope cut, carryover, average cycle time.",
@@ -8126,6 +8135,15 @@
         "Track sprint completion rates over the last N cycles to spot productivity trends.",
         "Initiatives Health",
         "Rolled-up portfolio view per initiative: child project progress, milestone target-vs-projected dates, slippage flags.",
+        "Initiative Inventory",
+        "initiatives list",
+        "List Linear initiatives live with their current status and URL.",
+        "Initiative Search",
+        "initiatives search",
+        "Search Linear initiatives live by name.",
+        "Initiative Name Resolution",
+        "initiatives resolve",
+        "Resolve one Linear initiative name to a UUID, preferring exact matches.",
         "At-Risk Milestones",
         "milestones at-risk",
         "List portfolio milestones whose projected landing date has slipped past their target, ranked by slip magnitude.",
@@ -8150,6 +8168,10 @@
         "name": "Matt Van Horn"
       },
       "contributors": [
+        {
+          "handle": "ericlitman",
+          "name": "Eric Litman"
+        },
         {
           "handle": "tmchow",
           "name": "Trevin Chow"
@@ -10814,6 +10836,12 @@
         "Group your synced photos by photographer to review credit balance and licensing coverage."
       ],
       "path": "library/media-and-entertainment/pexels",
+      "release": {
+        "cli_name": "pexels-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-24T00:03:22Z",
+        "source_commit": "cf702df807e46cc111e72c0305321f0b0629956a"
+      },
       "printer": "vcolombo",
       "printer_name": "Vincent Colombo",
       "creator": {
