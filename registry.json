@@ -3488,6 +3488,12 @@
         "Joins an opportunity to its company, people, and recent activities into one related-records view."
       ],
       "path": "library/sales-and-crm/copper",
+      "release": {
+        "cli_name": "copper-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T07:44:42Z",
+        "source_commit": "9b3a67884ba679043574ebabd44b9e74b5961966"
+      },
       "printer": "kmorebetter",
       "printer_name": "Kerry Morrison",
       "creator": {
@@ -12010,6 +12016,58 @@
       }
     },
     {
+      "name": "prediction-goat",
+      "category": "payments",
+      "api": "Markets",
+      "description": "Every Polymarket and Kalshi market in one slim agent-native CLI, with cross-venue topic search and screens no other...",
+      "search_terms": [
+        "prediction-goat",
+        "Markets",
+        "prediction-goat-pp-cli",
+        "Cross-venue topic bundle",
+        "topic",
+        "Get every related Polymarket and Kalshi market for a topic in one slim ranked ~3KB bundle — kanye-west, argentina, chatgpt-5.",
+        "Mispriced screen",
+        "mispriced",
+        "Find same-outcome markets where Polymarket and Kalshi disagree on implied probability by more than a threshold.",
+        "Cross-venue compare",
+        "compare",
+        "Side-by-side YES/NO and implied probability for the same topic across Polymarket and Kalshi.",
+        "Trending screen",
+        "trending",
+        "Top movers by 24h volume across both venues, ranked.",
+        "Resolving screen",
+        "resolving",
+        "Markets resolving in the next week/month/days, sorted by liquidity.",
+        "Liquid screen",
+        "liquid",
+        "Markets above a normalized volume/liquidity floor across both venues.",
+        "Movers screen",
+        "movers",
+        "Biggest implied-probability deltas over a 24h or 7d window across both venues.",
+        "New screen",
+        "new",
+        "Markets created in the last N days across both venues.",
+        "Markets diff",
+        "Field-by-field structural diff between a specific Polymarket market and a specific Kalshi market."
+      ],
+      "path": "library/payments/prediction-goat",
+      "printer": "mvanhorn",
+      "printer_name": "Matt Van Horn",
+      "mcp": {
+        "binary": "prediction-goat-pp-mcp",
+        "transports": [
+          "stdio"
+        ],
+        "tool_count": 42,
+        "public_tool_count": 42,
+        "auth_type": "none",
+        "env_vars": [],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
+      }
+    },
+    {
       "name": "printify",
       "category": "commerce",
       "api": "Printify",
@@ -16309,6 +16367,57 @@
         "auth_type": "api_key",
         "env_vars": [
           "TWILIO_ACCOUNT_SID_AUTH_TOKEN"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
+      }
+    },
+    {
+      "name": "twitch",
+      "category": "media-and-entertainment",
+      "api": "Twitch Helix",
+      "description": "Twitch Helix API",
+      "search_terms": [
+        "twitch",
+        "Twitch Helix",
+        "twitch-pp-cli",
+        "Twitch Helix API",
+        "Local SQLite Sync",
+        "sync",
+        "Mirror Twitch Helix data (top games, live streams, global emotes, content labels) into a local SQLite store for offline search and analysis",
+        "No Twitch tool persists data; every library and the official twitch-cli is a stateless live passthrough",
+        "Full-Text Search",
+        "search",
+        "Full-text search across locally synced Twitch records",
+        "Requires the local SQLite index; impossible with the stateless API wrappers",
+        "Local Analytics",
+        "analytics",
+        "Group-by and count aggregation over locally synced Twitch data without re-hitting the rate-limited API",
+        "Offline aggregation is absent from every alternative",
+        "Compound Workflows",
+        "workflow",
+        "Chain multiple Helix operations into one agent-friendly command",
+        "Combines several API calls behind a single invocation"
+      ],
+      "path": "library/media-and-entertainment/twitch",
+      "printer": "coopdogGGs",
+      "printer_name": "ryanc00per",
+      "creator": {
+        "handle": "coopdogGGs",
+        "name": "ryanc00per"
+      },
+      "mcp": {
+        "binary": "twitch-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 144,
+        "public_tool_count": 13,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "TWITCH_CLIENT_ID",
+          "TWITCH_CLIENT_SECRET"
         ],
         "mcp_ready": "full",
         "spec_format": "openapi3"
