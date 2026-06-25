@@ -3517,6 +3517,54 @@
       }
     },
     {
+      "name": "costco",
+      "category": "commerce",
+      "api": "Costco",
+      "description": "Your complete Costco receipt history as data — past the website's 2-year wall, in a local database the site never gives you.",
+      "search_terms": [
+        "costco",
+        "costco-pp-cli",
+        "Your complete Costco receipt history as data — past the website's 2-year wall, in a local database the site never gives you.",
+        "History-depth probe",
+        "history-depth",
+        "Discover how far back your Costco receipts actually go, past the website's 2-year UI cap.",
+        "Spend analytics",
+        "spend",
+        "Roll up your spend by month, warehouse, or department over a date range.",
+        "Item price history",
+        "item-history",
+        "Track one item's unit price across every receipt over time.",
+        "Instant savings captured",
+        "savings",
+        "Total the instant savings and coupons you captured over a date range.",
+        "Return-window watch",
+        "returns-window",
+        "Flag recently purchased items still inside a return window you set."
+      ],
+      "path": "library/commerce/costco",
+      "printer": "richie305",
+      "printer_name": "David Richie",
+      "creator": {
+        "handle": "richie305",
+        "name": "David Richie"
+      },
+      "mcp": {
+        "binary": "costco-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 1,
+        "public_tool_count": 0,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "COSTCO_ID_TOKEN"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "internal"
+      }
+    },
+    {
       "name": "craigslist",
       "category": "commerce",
       "api": "Craigslist",
@@ -11502,9 +11550,9 @@
       "path": "library/project-management/plane",
       "release": {
         "cli_name": "plane-pp-cli",
-        "version": "2026.6.4",
-        "released_at": "2026-06-25T07:38:56Z",
-        "source_commit": "d4528fd340fe3768fcb6cc47e3bff8867d59c815"
+        "version": "2026.6.5",
+        "released_at": "2026-06-25T17:56:53Z",
+        "source_commit": "8d159d34dd38989214bef0d7904a9ab61c4b06f8"
       },
       "printer": "sidorovanthon",
       "printer_name": "Anton Sidorov aka anticodeguy",
@@ -16400,6 +16448,12 @@
         "Combines several API calls behind a single invocation"
       ],
       "path": "library/media-and-entertainment/twitch",
+      "release": {
+        "cli_name": "twitch-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T07:47:54Z",
+        "source_commit": "57e0f7213e2675d110ac07d25c33922b9176bda1"
+      },
       "printer": "coopdogGGs",
       "printer_name": "ryanc00per",
       "creator": {
