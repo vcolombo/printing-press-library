@@ -15321,6 +15321,12 @@
         "handle": "mvanhorn",
         "name": "Matt Van Horn"
       },
+      "contributors": [
+        {
+          "handle": "noahlevin",
+          "name": "Noah Levin"
+        }
+      ],
       "mcp": {
         "binary": "superhuman-pp-mcp",
         "transports": [
