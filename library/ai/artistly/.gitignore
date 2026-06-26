@@ -1,0 +1,26 @@
+# Built binaries (rebuilt from source; never commit — 65MB each)
+/artistly
+/artistly-pp-cli
+/artistly-pp-mcp
+/bin/
+/build/
+
+# Local agent/editor settings
+.claude/
+
+# Printing-press run artifacts (transient diagnostics, not source)
+dogfood-results.json
+workflow-verify-report.json
+.printing-press-pii-polish.json
+.printing-press-tools-polish.json
+
+# Downloaded design assets from local CLI runs (account data)
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# Local config / credentials never belong here
+config.toml
+*.env
+cookies.json
