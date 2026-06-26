@@ -48,7 +48,7 @@ flight-goat-pp-cli assess --origin SFO --destination DCA --delayed-flight UA123 
 | Compound decisions like `compare`, `assess`, `digest`, `monitor`, and `ontime-now` | Google Flights/Kayak plus AeroAPI/FAA/weather where relevant | Partial results without every source; AeroAPI improves operational depth |
 
 Created by [@mvanhorn](https://github.com/mvanhorn) (Matt Van Horn).
-Contributors: [@lloydarmbrust](https://github.com/lloydarmbrust) (Lloyd Armbrust).
+Contributors: [@lloydarmbrust](https://github.com/lloydarmbrust) (Lloyd Armbrust), [@tmchow](https://github.com/tmchow) (Trevin Chow).
 
 ## Install
 
