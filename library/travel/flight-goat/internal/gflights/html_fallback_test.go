@@ -78,6 +78,21 @@ func TestEnvelopeBlockedErrUnrecognizedShape(t *testing.T) {
 	}
 }
 
+// Google now sometimes returns a compact gated-RPC envelope with only the
+// status-code metadata slot (`[13]`) and no ErrorResponse type URL. It should
+// trigger the same HTML fallback as the older verbose ErrorResponse envelope.
+func TestParseOffersResponseDetectsCompactBlockedEnvelope(t *testing.T) {
+	body := []byte(googleResponsePrefix + `
+[["wrb.fr",null,null,null,null,[13]],["di",39],["af.httprm",38,"redacted",6]]`)
+	flights, err := parseOffersResponse(body, "USD")
+	if !errors.Is(err, errShoppingBlocked) {
+		t.Fatalf("parseOffersResponse error = %v, want errShoppingBlocked", err)
+	}
+	if flights != nil {
+		t.Fatalf("parseOffersResponse returned %d flights alongside the blocked error", len(flights))
+	}
+}
+
 // The existing old-format fixtures must keep parsing — the blocked-envelope
 // detection must not regress the happy path.
 func TestParseOffersResponseOldFormatStillParses(t *testing.T) {

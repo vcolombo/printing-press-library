@@ -80,6 +80,19 @@ func envelopeBlockedErr(stripped string) error {
 	if strings.Contains(stripped, errorResponseMarker) {
 		return errShoppingBlocked
 	}
+	var outer [][]any
+	if err := json.Unmarshal([]byte(stripped), &outer); err == nil {
+		for _, row := range outer {
+			if len(row) < 6 {
+				continue
+			}
+			tag, _ := row[0].(string)
+			status, ok := row[5].([]any)
+			if tag == "wrb.fr" && ok && len(status) > 0 && int(numericFloat(status[0])) == 13 {
+				return errShoppingBlocked
+			}
+		}
+	}
 	return fmt.Errorf("response wrb.fr payload is not a string (unrecognized envelope; Google response format may have changed)")
 }
 
