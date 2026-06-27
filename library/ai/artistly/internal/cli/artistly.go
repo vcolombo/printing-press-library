@@ -94,6 +94,19 @@ func readJarCookie(name string, urlDecode bool) (string, error) {
 	return "", fmt.Errorf("cookie %q not found; run: artistly-pp-cli auth login --chrome", name)
 }
 
+// jarSessionPresent reports whether the persistent cookie jar holds a non-empty
+// artistly_session cookie. The jar — not config.toml — is the sole source of
+// outbound auth for cookie-auth requests (see client.persistLocked usage), so
+// `auth status` and `doctor` consult this to recognize sessions written by
+// `auth login --chrome` or the auth-refresh sidecar, which never touch
+// config.toml's auth_header/access_token. Presence is enough to report
+// "authenticated"; an expired session still surfaces as a 401 on the next real
+// call, matching how config credentials are treated as "present, not verified".
+func jarSessionPresent() bool {
+	val, err := readJarCookie("artistly_session", false)
+	return err == nil && strings.TrimSpace(val) != ""
+}
+
 // writeHeaders builds the headers required for Laravel state-changing requests:
 // the CSRF token (decoded XSRF-TOKEN cookie -> X-XSRF-TOKEN) and the AJAX
 // marker. X-Inertia is intentionally omitted: the /ai/{feature}/store endpoint

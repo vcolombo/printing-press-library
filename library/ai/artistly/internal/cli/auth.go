@@ -252,16 +252,25 @@ func newAuthStatusCmd(flags *rootFlags) *cobra.Command {
 
 			w := cmd.OutOrStdout()
 			header := cfg.AuthHeader()
+			source := cfg.AuthSource
 			if header == "" {
-				fmt.Fprintln(w, red("Not authenticated"))
-				fmt.Fprintln(w, "")
-				fmt.Fprintln(w, "Log in from your browser session:")
-				fmt.Fprintf(w, "  artistly-pp-cli auth login --chrome\n")
-				return authErr(fmt.Errorf("no credentials configured"))
+				// config.toml carries no token, but the persistent cookie jar
+				// is the real source of outbound auth for cookie-auth requests.
+				// A session written by `auth login --chrome` or the auth-refresh
+				// sidecar lives only in the jar, so consult it before declaring
+				// the user unauthenticated.
+				if !jarSessionPresent() {
+					fmt.Fprintln(w, red("Not authenticated"))
+					fmt.Fprintln(w, "")
+					fmt.Fprintln(w, "Log in from your browser session:")
+					fmt.Fprintf(w, "  artistly-pp-cli auth login --chrome\n")
+					return authErr(fmt.Errorf("no credentials configured"))
+				}
+				source = "browser cookie jar"
 			}
 
 			fmt.Fprintln(w, green("Authenticated"))
-			fmt.Fprintf(w, "  Source: %s\n", cfg.AuthSource)
+			fmt.Fprintf(w, "  Source: %s\n", source)
 			fmt.Fprintf(w, "  Domain: app.artistly.ai\n")
 			fmt.Fprintf(w, "  Config: %s\n", cfg.Path)
 			return nil

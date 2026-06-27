@@ -163,7 +163,15 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 			authConfigured := false
 			if cfg != nil {
 				header := cfg.AuthHeader()
-				if header == "" {
+				if header == "" && jarSessionPresent() {
+					// config.toml has no token, but the persistent cookie jar —
+					// the real source of outbound auth — holds a session written
+					// by `auth login --chrome` or the auth-refresh sidecar.
+					authConfigured = true
+					report["auth"] = "configured (browser cookie jar)"
+					report["auth_source"] = "jar"
+					report["auth_domain"] = "app.artistly.ai"
+				} else if header == "" {
 					report["auth"] = "not configured"
 					report["auth_hint"] = "artistly-pp-cli auth login --chrome"
 				} else {
@@ -244,8 +252,11 @@ func newDoctorCmd(flags *rootFlags) *cobra.Command {
 					}
 
 					// Step 2: Validate credentials with an authenticated probe.
+					// Jar-based sessions carry no config header but still
+					// authenticate requests (newClient loads the jar), so treat
+					// a present jar session as configured credentials too.
 					authHeader := cfg.AuthHeader()
-					if authHeader == "" {
+					if authHeader == "" && !jarSessionPresent() {
 						// No auth configured — skip credential validation
 					} else if reachErr != nil && !errors.As(reachErr, &reachAPIErr) {
 						report["credentials"] = "skipped (API unreachable)"
