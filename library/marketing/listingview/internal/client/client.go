@@ -168,13 +168,13 @@ func New(cfg *config.Config, timeout time.Duration, rateLimit float64) *Client {
 		// credential from leaking to a redirect target, while preserving any
 		// other cookies on the request.
 		if req.URL.Host != via[0].URL.Host {
-			preserved := req.Cookies()
+			// ListingView cookie auth: the Cookie header carries the session and
+			// CSRF cookies scoped to app.listingview.io. Never forward them to a
+			// cross-host redirect target. (After the cookie-auth fix in
+			// listingview_csrf.go the jar holds real cookie names, not a single
+			// cookie literally named "Cookie", so the old name-filter no longer
+			// stripped the credential — drop the whole header instead.)
 			req.Header.Del("Cookie")
-			for _, ck := range preserved {
-				if ck.Name != "Cookie" {
-					req.AddCookie(ck)
-				}
-			}
 		}
 		return nil
 	}
