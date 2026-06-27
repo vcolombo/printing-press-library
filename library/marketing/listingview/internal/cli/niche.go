@@ -133,10 +133,13 @@ func nicheVerdict(v nicheView) (string, []string) {
 		return "GO", append(signals, "strong demand relative to competition and recent winners prove the niche is still beatable")
 	case v.OpportunityRatio >= 3 && v.WinnablePct >= 20:
 		return "CAUTION", append(signals, "workable demand but the field is competitive — differentiate strongly")
+	case v.OpportunityRatio < 3:
+		return "AVOID", append(signals, "demand is low relative to competition")
 	case v.WinnablePct < 15:
 		return "AVOID", append(signals, "top sellers are entrenched/old; hard to break in without a unique angle")
 	default:
-		return "AVOID", append(signals, "demand is low relative to competition")
+		// Solid demand (ratio >= 3) but too few recent winners to clear GO/CAUTION.
+		return "CAUTION", append(signals, "demand is solid but few top sellers are recent — a strong, differentiated listing can still break in")
 	}
 }
 

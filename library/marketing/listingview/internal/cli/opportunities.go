@@ -67,15 +67,21 @@ func newNovelOpportunitiesCmd(flags *rootFlags) *cobra.Command {
 					op.Volume = s.Metrics["volume"]
 					op.CompetingListings = s.Metrics["competingListings"]
 					if op.CompetingListings > 0 {
-						op.Score = round2(op.Volume / op.CompetingListings)
+						// Map the unbounded demand/competition ratio onto a 0-100
+						// score (saturating: ratio 20 -> 50, ratio 80 -> 80) so
+						// keywords and tags rank on the same scale.
+						ratio := op.Volume / op.CompetingListings
+						op.Score = round2(100 * ratio / (ratio + 20))
 					}
 				case "tag":
 					op.OpportunityScore = s.Metrics["opportunityScore"]
 					op.DemandScore = s.Metrics["demandScore"]
 					op.CompetitionScore = s.Metrics["competitionScore"]
 					op.VelocityScore = s.Metrics["velocityScore"]
-					// Blend opportunity with velocity so rising-but-uncrowded tags rank highest.
-					op.Score = round2(op.OpportunityScore + op.VelocityScore*0.5)
+					// Both inputs are already 0-100; weight opportunity over
+					// velocity so the blended score stays on the same 0-100 scale
+					// as the keyword score above (no cross-kind ranking bias).
+					op.Score = round2(0.7*op.OpportunityScore + 0.3*op.VelocityScore)
 				}
 				view.Opportunities = append(view.Opportunities, op)
 			}
