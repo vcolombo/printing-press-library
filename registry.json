@@ -373,6 +373,43 @@
       }
     },
     {
+      "name": "air-quality",
+      "category": "other",
+      "api": "Air Quality",
+      "description": "Source-aware air-quality recipes for OpenAQ v3 measurements, nearby monitor discovery, point comparison, and AirNow AQI setup/observations.",
+      "search_terms": [
+        "air-quality",
+        "Air Quality",
+        "air-quality-pp-cli",
+        "Source-aware air-quality recipes for OpenAQ v3 measurements, nearby monitor discovery, point comparison, and AirNow AQI setup/observations.",
+        "OpenAQ current snapshot",
+        "current",
+        "Finds a nearby OpenAQ location and returns latest physical pollutant measurements with source caveats.",
+        "Nearby monitoring locations",
+        "nearest",
+        "Lists nearby OpenAQ locations with provider, coordinate, and sensor metadata.",
+        "Location latest measurements",
+        "location",
+        "Fetches a known OpenAQ location by ID and its latest measurements.",
+        "Recent sensor history",
+        "history",
+        "Fetches a bounded recent OpenAQ measurement window for one sensor.",
+        "Two-point comparison",
+        "compare",
+        "Compares nearest OpenAQ snapshots for two coordinate pairs without converting measurements into AQI.",
+        "AirNow current AQI setup",
+        "airnow current",
+        "Fetches AirNow current observations by ZIP when configured and otherwise returns setup guidance with non-regulatory caveats."
+      ],
+      "path": "library/other/air-quality",
+      "printer": "sdhilip200",
+      "printer_name": "Dhilip Subramanian",
+      "creator": {
+        "handle": "sdhilip200",
+        "name": "Dhilip Subramanian"
+      }
+    },
+    {
       "name": "airbnb",
       "category": "travel",
       "api": "Airbnb Vrbo",
@@ -598,6 +635,46 @@
         "env_vars": [],
         "mcp_ready": "full",
         "spec_format": "plan"
+      }
+    },
+    {
+      "name": "airhint",
+      "category": "travel",
+      "api": "Airhint",
+      "description": "AirHint flight price prediction API — buy/wait recommendations for airline tickets",
+      "search_terms": [
+        "airhint",
+        "airhint-pp-cli",
+        "AirHint flight price prediction API — buy/wait recommendations for airline tickets",
+        "Multi-date Prediction Sweep",
+        "workflow predict-sweep",
+        "Sweep buy/wait predictions across a date range for a route, fetching live prices for each date",
+        "Multi-route Comparison",
+        "workflow compare-routes",
+        "Compare buy/wait predictions across multiple origin-destination pairs on the same date",
+        "Cheapest Window Finder",
+        "workflow cheapest-window",
+        "Find the cheapest departure date in a given month using the cheapest-deal-month and cheapest-airline-deal-month endpoints"
+      ],
+      "path": "library/travel/airhint",
+      "printer": "jvm",
+      "printer_name": "jvm",
+      "creator": {
+        "handle": "jvm",
+        "name": "jvm"
+      },
+      "mcp": {
+        "binary": "airhint-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 7,
+        "public_tool_count": 7,
+        "auth_type": "none",
+        "env_vars": [],
+        "mcp_ready": "full",
+        "spec_format": "internal"
       }
     },
     {
@@ -2210,6 +2287,59 @@
       }
     },
     {
+      "name": "boardgamegeek",
+      "category": "media-and-entertainment",
+      "api": "BoardGameGeek",
+      "description": "Look up board games, expansions, hot rankings, user collections, and logged plays from BoardGameGeek's official XMLAPI2 — search, full game detail with stats and rankings, and the live hot list, all without a browser.",
+      "search_terms": [
+        "boardgamegeek",
+        "boardgamegeek-pp-cli",
+        "Look up board games, expansions, hot rankings, user collections, and logged plays from BoardGameGeek's official XMLAPI2 — search, full game detail with stats and rankings, and the live hot list, all without a browser.",
+        "Register an application at https://boardgamegeek.com/applications (Non-commercial licenses are free), wait for approval, then create a token under your application and send it as Authorization: Bearer <token>.",
+        "Full-Text Game Search",
+        "search",
+        "FTS5 search across locally synced games, expansions, and accessories",
+        "Requires a domain SQLite index over synced thing rows; the XMLAPI2 search is name-prefix only, so offline full-text lookup is something the raw API cannot do",
+        "Local Analytics",
+        "analytics",
+        "Aggregate queries (group-by, counts, averages) over locally synced BoardGameGeek data",
+        "Only possible with a local SQLite store populated from the API; BGG exposes no aggregate endpoints",
+        "Compound Workflows",
+        "workflow",
+        "Chain multiple API operations (search then thing-detail then collection) in one invocation",
+        "Combines several boardgamegeek.com/xmlapi2 calls behind one agent-friendly command"
+      ],
+      "path": "library/media-and-entertainment/boardgamegeek",
+      "release": {
+        "cli_name": "boardgamegeek-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-24T00:44:18Z",
+        "source_commit": "df8fb811194af726ca3206e4ff398c2ffd608223"
+      },
+      "printer": "coopdogGGs",
+      "printer_name": "Ryan Cooper",
+      "creator": {
+        "handle": "coopdogGGs",
+        "name": "Ryan Cooper"
+      },
+      "mcp": {
+        "binary": "boardgamegeek-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 8,
+        "public_tool_count": 0,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "BGG_TOKEN",
+          "BOARDGAMEGEEK_TOKEN"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
+      }
+    },
+    {
       "name": "booking-com",
       "category": "travel",
       "api": "Booking.com",
@@ -3315,6 +3445,206 @@
         ],
         "mcp_ready": "full",
         "spec_format": "openapi3"
+      }
+    },
+    {
+      "name": "context-dev",
+      "category": "ai",
+      "api": "Context",
+      "description": "Agent-friendly Context.dev CLI for website intelligence, brand enrichment, scraping, crawling, structured extraction, screenshots, styleguides, competitor maps, source packs, and change digests.",
+      "search_terms": [
+        "context-dev",
+        "Context",
+        "context-dev-pp-cli",
+        "Agent-friendly Context.dev CLI for website intelligence, brand enrichment, scraping, crawling, structured extraction, screenshots, styleguides, competitor maps, source packs, and change digests.",
+        "Scrape Markdown",
+        "scrape",
+        "One-argument URL-to-Markdown wrapper for LLM-ready page content.",
+        "Same-domain crawl",
+        "crawl",
+        "Credit-aware crawl wrapper with same-domain URL regex, default max-pages 5, estimate mode, and confirmation above 25 pages.",
+        "Typed extraction",
+        "extract",
+        "URL plus JSON Schema file wrapper for structured website extraction.",
+        "Styleguide extraction",
+        "styleguide",
+        "One-argument design-system extraction wrapper for domains or URLs.",
+        "Screenshot preview",
+        "screenshot",
+        "One-argument screenshot wrapper for domains or direct URLs.",
+        "Entity discover",
+        "entity-discover",
+        "Fielded public entity search with brand and scrape enrichment, sensitive/free-form input rejection, heuristic ranking, and per-record provenance.",
+        "Brand brief",
+        "brand-brief",
+        "Domain-to-normalized brand profile composing brand retrieval, styleguide, screenshot, scrape summary, contact surfaces, and provenance.",
+        "Competitor map",
+        "competitor-map",
+        "Competitor discovery and enrichment from a seed domain or query, clustered by category/market with ranking rationale and overlap signals.",
+        "Crawl budget plan",
+        "crawl-budget-plan",
+        "Non-spending crawl planner that estimates same-domain urlRegex scope, max pages, credits, coverage, risks, and recommended crawl command.",
+        "Source pack",
+        "source-pack",
+        "Search-and-scrape source collection with optional schema extraction, cited source URLs, zero-result distinction, and per-claim/source provenance.",
+        "Website change digest",
+        "website-change-digest",
+        "State-dir website snapshots for scrape, styleguide, and screenshot signals with local diff output across copy, facts/links, and visual identity.",
+        "Schema lab",
+        "schema-lab",
+        "Batch extraction schema test harness for sample URLs with fill rates, parse failures, example misses, per-URL statuses, and partial-failure tolerance.",
+        "Asset pack",
+        "asset-pack",
+        "Compact designer/agent asset bundle composing logo, palette, fonts, styleguide, screenshot, favicon, socials, and provenance.",
+        "Trust check",
+        "trust-check",
+        "Website, social, address, phone, logo, title/domain, and web-signal consistency report that phrases output as risk signals, not fraud claims.",
+        "Lead enrich batch",
+        "lead-enrich-batch",
+        "CSV lead enrichment with per-row success/error output, provenance, resume/output support, rate-limit compatibility, and strict-mode opt-in."
+      ],
+      "path": "library/ai/context-dev",
+      "release": {
+        "cli_name": "context-dev-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-24T15:51:28Z",
+        "source_commit": "28b7a92c628453afa6f7221bd612d26ab5512390"
+      },
+      "printer": "cathrynlavery",
+      "printer_name": "Cathryn Lavery",
+      "creator": {
+        "handle": "cathrynlavery",
+        "name": "Cathryn Lavery"
+      },
+      "mcp": {
+        "binary": "context-dev-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 26,
+        "public_tool_count": 0,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "CONTEXT_DEV_API_KEY",
+          "CONTEXT_API_KEY",
+          "CONTEXT_DEV_BEARER_AUTH"
+        ],
+        "mcp_ready": "full"
+      }
+    },
+    {
+      "name": "copper",
+      "category": "sales-and-crm",
+      "api": "Copper",
+      "description": "The Copper CRM command line no one else built: full CRUD plus a local database, weighted pipeline forecasting, stale-deal detection, and the bulk operations Copper's own API refuses to provide.",
+      "search_terms": [
+        "copper",
+        "copper-pp-cli",
+        "The Copper CRM command line no one else built: full CRUD plus a local database, weighted pipeline forecasting, stale-deal detection, and the bulk operations Copper's own API refuses to provide.",
+        "Weighted pipeline forecast",
+        "forecast",
+        "Weighted expected-revenue roll-up: sums monetary_value x win_probability over open opportunities, grouped by stage, assignee, or close-month.",
+        "Stale-deal sweep",
+        "stale",
+        "Surfaces open opportunities with no interaction in N days, sorted by staleness x value, across all reps.",
+        "Bulk write engine",
+        "bulk",
+        "Applies field updates (stage, owner, custom fields) across many opportunities with bounded concurrency and heuristic 429 backoff.",
+        "Idempotent upsert",
+        "upsert",
+        "Match-then-create-or-update for people and leads; normalizes the people.emails[] vs leads.email shape difference.",
+        "Duplicate finder",
+        "dedupe",
+        "Local SQLite self-join surfacing people or leads that share an email, name, or company.",
+        "Activity log and correct",
+        "log",
+        "Creates an activity with the type resolved by name (bumps interaction_count); log fix deletes and recreates to edit an immutable activity.",
+        "Contact-graph lookup",
+        "who",
+        "Joins an opportunity to its company, people, and recent activities into one related-records view."
+      ],
+      "path": "library/sales-and-crm/copper",
+      "release": {
+        "cli_name": "copper-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T07:44:42Z",
+        "source_commit": "9b3a67884ba679043574ebabd44b9e74b5961966"
+      },
+      "printer": "kmorebetter",
+      "printer_name": "Kerry Morrison",
+      "creator": {
+        "handle": "kmorebetter",
+        "name": "Kerry Morrison"
+      },
+      "mcp": {
+        "binary": "copper-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 65,
+        "public_tool_count": 0,
+        "auth_type": "api_key",
+        "env_vars": [
+          "COPPER_API_KEY"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "internal"
+      }
+    },
+    {
+      "name": "costco",
+      "category": "commerce",
+      "api": "Costco",
+      "description": "Your complete Costco receipt history as data — past the website's 2-year wall, in a local database the site never gives you.",
+      "search_terms": [
+        "costco",
+        "costco-pp-cli",
+        "Your complete Costco receipt history as data — past the website's 2-year wall, in a local database the site never gives you.",
+        "History-depth probe",
+        "history-depth",
+        "Discover how far back your Costco receipts actually go, past the website's 2-year UI cap.",
+        "Spend analytics",
+        "spend",
+        "Roll up your spend by month, warehouse, or department over a date range.",
+        "Item price history",
+        "item-history",
+        "Track one item's unit price across every receipt over time.",
+        "Instant savings captured",
+        "savings",
+        "Total the instant savings and coupons you captured over a date range.",
+        "Return-window watch",
+        "returns-window",
+        "Flag recently purchased items still inside a return window you set."
+      ],
+      "path": "library/commerce/costco",
+      "release": {
+        "cli_name": "costco-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T18:03:52Z",
+        "source_commit": "18e901445f3beccde15a296e05dfbc3951b79611"
+      },
+      "printer": "richie305",
+      "printer_name": "David Richie",
+      "creator": {
+        "handle": "richie305",
+        "name": "David Richie"
+      },
+      "mcp": {
+        "binary": "costco-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 1,
+        "public_tool_count": 0,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "COSTCO_ID_TOKEN"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "internal"
       }
     },
     {
@@ -5406,9 +5736,9 @@
       "path": "library/travel/flight-goat",
       "release": {
         "cli_name": "flight-goat-pp-cli",
-        "version": "2026.6.4",
-        "released_at": "2026-06-21T08:16:26Z",
-        "source_commit": "acb84091ff016c6e7aea5f8cf6956a694aa0d1c7"
+        "version": "2026.6.7",
+        "released_at": "2026-06-26T06:26:41Z",
+        "source_commit": "39128d2ec85f9bf9127938a8cd176bffc25d0bfe"
       },
       "printer": "mvanhorn",
       "printer_name": "Matt Van Horn",
@@ -5420,6 +5750,10 @@
         {
           "handle": "lloydarmbrust",
           "name": "Lloyd Armbrust"
+        },
+        {
+          "handle": "tmchow",
+          "name": "Trevin Chow"
         }
       ],
       "mcp": {
@@ -5611,9 +5945,9 @@
       "path": "library/other/fred",
       "release": {
         "cli_name": "fred-pp-cli",
-        "version": "2026.6.1",
-        "released_at": "2026-06-21T08:16:26Z",
-        "source_commit": "acb84091ff016c6e7aea5f8cf6956a694aa0d1c7"
+        "version": "2026.6.2",
+        "released_at": "2026-06-26T07:50:55Z",
+        "source_commit": "f026a8339d712b44c99a86c09e21b2a74ce34ee9"
       },
       "printer": "LukeTheoJohnson",
       "printer_name": "Luke J",
@@ -5770,6 +6104,57 @@
       }
     },
     {
+      "name": "gainsight",
+      "category": "sales-and-crm",
+      "api": "Gainsight Read",
+      "description": "Read-first Gainsight NXT API surface for customer success account, relationship, person, timeline",
+      "search_terms": [
+        "gainsight",
+        "Gainsight Read",
+        "gainsight-pp-cli",
+        "Read-first Gainsight NXT API surface for customer success account, relationship, person, timeline",
+        "Agent command discovery",
+        "which",
+        "Map a natural-language capability request to the exact generated CLI command before executing it.",
+        "Structured agent context",
+        "agent-context",
+        "Emit machine-readable command, auth, and profile metadata so agents can plan calls without scraping help text.",
+        "Local SQLite sync framework",
+        "sync",
+        "Sync selected API resources into a local SQLite store for repeatable offline inspection and analysis.",
+        "SQL analytics on synced records",
+        "analytics",
+        "Run read-only SQL against synced API records for compound questions the upstream API does not expose directly."
+      ],
+      "path": "library/sales-and-crm/gainsight",
+      "release": {
+        "cli_name": "gainsight-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-24T00:45:55Z",
+        "source_commit": "44a31f1116e3848157cd4bd611aaaeef65d7581d"
+      },
+      "printer": "debgotwired",
+      "printer_name": "Deb Mukherjee",
+      "creator": {
+        "handle": "debgotwired",
+        "name": "Deb Mukherjee"
+      },
+      "mcp": {
+        "binary": "gainsight-pp-mcp",
+        "transports": [
+          "stdio"
+        ],
+        "tool_count": 11,
+        "public_tool_count": 0,
+        "auth_type": "api_key",
+        "env_vars": [
+          "GAINSIGHT_ACCESS_KEY_AUTH"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
+      }
+    },
+    {
       "name": "gisis",
       "category": "other",
       "api": "GISIS",
@@ -5826,6 +6211,115 @@
         "auth_type": "cookie",
         "env_vars": [],
         "mcp_ready": "partial",
+        "spec_format": "internal"
+      }
+    },
+    {
+      "name": "github-intel",
+      "category": "developer-tools",
+      "api": "Github Current Intelligence",
+      "description": "Public GitHub repository, release, search, and security advisory signals for agent research.",
+      "search_terms": [
+        "github-intel",
+        "Github Current Intelligence",
+        "github-intel-pp-cli",
+        "Public GitHub repository, release, search, and security advisory signals for agent research.",
+        "Repository trend discovery",
+        "trending",
+        "Find recently active repositories by language/topic using GitHub search qualifiers.",
+        "Release velocity",
+        "releases",
+        "List recent releases for an owner/repo with since filtering.",
+        "Advisory briefing",
+        "advisories",
+        "Brief security advisories by ecosystem, package, severity, and freshness.",
+        "Repository health comparison",
+        "compare",
+        "Compare repository adoption, activity, issue load, and latest release signals."
+      ],
+      "path": "library/developer-tools/github-intel",
+      "release": {
+        "cli_name": "github-intel-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T07:33:37Z",
+        "source_commit": "437b90c47d09c1fe0b7533cbd7f049de9be8e0de"
+      },
+      "printer": "hnshah",
+      "printer_name": "Hiten Shah",
+      "creator": {
+        "handle": "hnshah",
+        "name": "Hiten Shah"
+      },
+      "mcp": {
+        "binary": "github-intel-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 4,
+        "public_tool_count": 4,
+        "auth_type": "none",
+        "env_vars": [],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
+      }
+    },
+    {
+      "name": "giustizia-amministrativa",
+      "category": "productivity",
+      "api": "Giustizia Amministrativa",
+      "description": "La giurisprudenza amministrativa italiana (TAR, Consiglio di Stato) da terminale: ricerca, testo integrale in Markdown, store locale e ricerca offline.",
+      "search_terms": [
+        "giustizia-amministrativa",
+        "Giustizia Amministrativa",
+        "giustizia-amministrativa-pp-cli",
+        "La giurisprudenza amministrativa italiana (TAR, Consiglio di Stato) da terminale: ricerca, testo integrale in Markdown, store locale e ricerca offline.",
+        "Testo integrale in Markdown",
+        "get",
+        "Scarica il testo completo di una sentenza/ordinanza/decreto/parere e lo restituisce in Markdown pulito.",
+        "Watch & Diff query salvate",
+        "watch run",
+        "Salva una ricerca e a ogni esecuzione mostra solo i provvedimenti nuovi dall'ultima volta.",
+        "Corpus export",
+        "corpus build",
+        "Assembla N provvedimenti su un tema in una cartella di Markdown + un CSV manifest (ECLI, sede, data, url).",
+        "Grep sui testi integrali",
+        "grep",
+        "Ricerca regex/prossimita' sui testi integrali scaricati localmente, non solo sugli snippet.",
+        "Estrazione massime",
+        "massime",
+        "Estrae i paragrafi 'principio di diritto'/massima da un corpus in un unico digest.",
+        "Appeal-chain tracer",
+        "appeal-chain",
+        "Esegue il 'verifica appello' in batch e ricostruisce la catena TAR->Consiglio di Stato.",
+        "Statistiche corpus",
+        "stats",
+        "Distribuzione di un tema per sede, sezione, tipo e anno."
+      ],
+      "path": "library/productivity/giustizia-amministrativa",
+      "release": {
+        "cli_name": "giustizia-amministrativa-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-26T07:45:56Z",
+        "source_commit": "e0b2a3af206d4cc640eaf2e2c1c2616b26b1b72f"
+      },
+      "printer": "aborruso",
+      "printer_name": "aborruso",
+      "creator": {
+        "handle": "aborruso",
+        "name": "aborruso"
+      },
+      "mcp": {
+        "binary": "giustizia-amministrativa-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 2,
+        "public_tool_count": 2,
+        "auth_type": "none",
+        "env_vars": [],
+        "mcp_ready": "full",
         "spec_format": "internal"
       }
     },
@@ -5907,6 +6401,58 @@
         "env_vars": [],
         "mcp_ready": "full",
         "spec_format": "internal"
+      }
+    },
+    {
+      "name": "gladly",
+      "category": "sales-and-crm",
+      "api": "Gladly Read",
+      "description": "Read-first Gladly API surface for customer timelines, conversations, agents, topics, answers, and support operations.",
+      "search_terms": [
+        "gladly",
+        "Gladly Read",
+        "gladly-pp-cli",
+        "Read-first Gladly API surface for customer timelines, conversations, agents, topics, answers, and support operations.",
+        "Agent command discovery",
+        "which",
+        "Map a natural-language capability request to the exact generated CLI command before executing it.",
+        "Structured agent context",
+        "agent-context",
+        "Emit machine-readable command, auth, and profile metadata so agents can plan calls without scraping help text.",
+        "Local SQLite sync framework",
+        "sync",
+        "Sync selected API resources into a local SQLite store for repeatable offline inspection and analysis.",
+        "SQL analytics on synced records",
+        "analytics",
+        "Run read-only SQL against synced API records for compound questions the upstream API does not expose directly."
+      ],
+      "path": "library/sales-and-crm/gladly",
+      "release": {
+        "cli_name": "gladly-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T07:39:41Z",
+        "source_commit": "33fbbf94e3130867b692dd82eee87520ab422ef1"
+      },
+      "printer": "debgotwired",
+      "printer_name": "Deb Mukherjee",
+      "creator": {
+        "handle": "debgotwired",
+        "name": "Deb Mukherjee"
+      },
+      "mcp": {
+        "binary": "gladly-pp-mcp",
+        "transports": [
+          "stdio"
+        ],
+        "tool_count": 11,
+        "public_tool_count": 0,
+        "auth_type": "api_key",
+        "env_vars": [
+          "GLADLY_USERNAME",
+          "GLADLY_PASSWORD"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
       }
     },
     {
@@ -6152,9 +6698,9 @@
       "path": "library/marketing/google-ads",
       "release": {
         "cli_name": "google-ads-pp-cli",
-        "version": "2026.6.3",
-        "released_at": "2026-06-21T08:16:26Z",
-        "source_commit": "acb84091ff016c6e7aea5f8cf6956a694aa0d1c7"
+        "version": "2026.6.4",
+        "released_at": "2026-06-25T22:34:38Z",
+        "source_commit": "26fc455839171bf96de0ea54c47e3197a72124ea"
       },
       "printer": "cathrynlavery",
       "printer_name": "Cathryn Lavery",
@@ -7135,6 +7681,114 @@
       }
     },
     {
+      "name": "hotelist",
+      "category": "travel",
+      "api": "Hotelist",
+      "description": "Every Hotelist feature, plus a local SQLite mirror that ranks rating-per-dollar across whole countries, compares chains head-to-head, and tracks how a city's hotels change over time.",
+      "search_terms": [
+        "hotelist",
+        "hotelist-pp-cli",
+        "Every Hotelist feature, plus a local SQLite mirror that ranks rating-per-dollar across whole countries, compares chains head-to-head, and tracks how a city's hotels change over time.",
+        "Country value leaderboard",
+        "rank-country",
+        "Rank the best hotels across an entire country by Hotelist rating-per-dollar, with compound amenity and price filters.",
+        "Chain vs chain value showdown",
+        "chain-compare",
+        "Compare hotel chains head-to-head on mean rating, median price, and rating-per-dollar in a country.",
+        "Nomad corridor scout",
+        "corridor",
+        "Find the best hotel in each stop of a multi-city route in one pass, with shared filters.",
+        "Watch & drift tracker",
+        "watch",
+        "Snapshot a saved location over time and diff which hotels improved, declined, or changed price since you last checked.",
+        "Chain consistency score",
+        "chain-consistency",
+        "Compute mean, median, and spread of a single chain's ratings across a country to see if the brand is reliably good or full of outliers.",
+        "Price cliff finder",
+        "price-cliff",
+        "Find the price point in a city where rating-per-extra-dollar collapses — the cheapest hotel that's still legitimately good."
+      ],
+      "path": "library/travel/hotelist",
+      "release": {
+        "cli_name": "hotelist-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T07:34:56Z",
+        "source_commit": "4e34253334cd9042b0d9ce42d401cf96dacd0114"
+      },
+      "printer": "dbryson",
+      "printer_name": "David Bryson",
+      "creator": {
+        "handle": "dbryson",
+        "name": "David Bryson"
+      },
+      "mcp": {
+        "binary": "hotelist-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 1,
+        "public_tool_count": 1,
+        "auth_type": "none",
+        "env_vars": [],
+        "mcp_ready": "full",
+        "spec_format": "internal"
+      }
+    },
+    {
+      "name": "ht-ml",
+      "category": "cloud",
+      "api": "ht-ml.app",
+      "description": "The only ht-ml.app tool that remembers what you published, a local registry of every site, its once-only update_key, and full version history, plus one-command publish-with-assets.",
+      "search_terms": [
+        "ht-ml",
+        "ht-ml.app",
+        "ht-ml-pp-cli",
+        "The only ht-ml.app tool that remembers what you published, a local registry of every site, its once-only update_key, and full version history, plus one-command publish-with-assets.",
+        "Site registry inventory",
+        "list",
+        "See every site you've ever published, with health flags for orphaned sites and broken assets.",
+        "Key vault & recovery",
+        "keys export",
+        "Reveal a single write key, or export/import a passphrase-sealed vault of all your update_keys for disaster recovery and a second machine.",
+        "One-shot asset reconcile",
+        "assets sync",
+        "Parse a site's HTML, find every referenced-but-missing image or video, and upload them all in one pass.",
+        "Broken-asset audit",
+        "assets audit",
+        "Across all your sites, list the ones with publicly-visible broken or missing images.",
+        "Version rollback",
+        "rollback",
+        "Revert a live site to any prior HTML version stored locally, with the update_key resolved for you.",
+        "Living-doc republish by alias",
+        "republish",
+        "Publish a recurring document under a stable local alias: update in place if the alias exists, or create it once and bind it.",
+        "Pre-publish secret/PII scan",
+        "scan",
+        "Mechanically scan HTML for leaked secrets and PII before it becomes a public, permanent URL."
+      ],
+      "path": "library/cloud/ht-ml",
+      "printer": "bobeglz",
+      "printer_name": "bobe",
+      "creator": {
+        "handle": "bobeglz",
+        "name": "bobe"
+      },
+      "mcp": {
+        "binary": "ht-ml-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 1,
+        "public_tool_count": 1,
+        "auth_type": "none",
+        "env_vars": [],
+        "mcp_ready": "full",
+        "spec_format": "internal"
+      }
+    },
+    {
       "name": "icloud",
       "category": "media-and-entertainment",
       "api": "Apple iCloud",
@@ -7454,9 +8108,9 @@
       "path": "library/developer-tools/isitagentready",
       "release": {
         "cli_name": "isitagentready-pp-cli",
-        "version": "",
-        "released_at": "",
-        "source_commit": ""
+        "version": "2026.6.1",
+        "released_at": "2026-06-23T17:16:31Z",
+        "source_commit": "bf29d66ced25fbd0bcae008d15ba87bf39ba7c63"
       },
       "printer": "bobeglz",
       "printer_name": "bobe",
@@ -8106,6 +8760,15 @@
         "Project Burndown",
         "projects burndown",
         "Project a project's landing date by linear-regressing remaining estimate against the team's measured velocity.",
+        "Project Inventory",
+        "projects list",
+        "List Linear projects live, optionally scoped by team, before attaching or auditing portfolio work.",
+        "Project Search",
+        "projects search",
+        "Search Linear projects live by name with an optional team filter.",
+        "Project Name Resolution",
+        "projects resolve",
+        "Resolve one Linear project name to a UUID, preferring exact matches and supporting team scoping.",
         "Cycle Comparison",
         "cycles compare",
         "Side-by-side metrics between any two cycles: completion %, scope added, scope cut, carryover, average cycle time.",
@@ -8126,6 +8789,15 @@
         "Track sprint completion rates over the last N cycles to spot productivity trends.",
         "Initiatives Health",
         "Rolled-up portfolio view per initiative: child project progress, milestone target-vs-projected dates, slippage flags.",
+        "Initiative Inventory",
+        "initiatives list",
+        "List Linear initiatives live with their current status and URL.",
+        "Initiative Search",
+        "initiatives search",
+        "Search Linear initiatives live by name.",
+        "Initiative Name Resolution",
+        "initiatives resolve",
+        "Resolve one Linear initiative name to a UUID, preferring exact matches.",
         "At-Risk Milestones",
         "milestones at-risk",
         "List portfolio milestones whose projected landing date has slipped past their target, ranked by slip magnitude.",
@@ -8139,9 +8811,9 @@
       "path": "library/project-management/linear",
       "release": {
         "cli_name": "linear-pp-cli",
-        "version": "2026.6.5",
-        "released_at": "2026-06-22T21:39:05Z",
-        "source_commit": "6b4115592e47e2fd883bb4d26a934732151e071b"
+        "version": "2026.6.6",
+        "released_at": "2026-06-24T00:04:38Z",
+        "source_commit": "44868dbe28bbadcf62a2855883e31f495e048b8b"
       },
       "printer": "mvanhorn",
       "printer_name": "Matt Van Horn",
@@ -8150,6 +8822,10 @@
         "name": "Matt Van Horn"
       },
       "contributors": [
+        {
+          "handle": "ericlitman",
+          "name": "Eric Litman"
+        },
         {
           "handle": "tmchow",
           "name": "Trevin Chow"
@@ -8169,6 +8845,73 @@
         ],
         "mcp_ready": "full",
         "spec_format": "graphql"
+      }
+    },
+    {
+      "name": "linq",
+      "category": "social-and-messaging",
+      "api": "Linq",
+      "description": "Agent-native messaging API for chats, messages, attachments, phone numbers, contact cards, capability checks, and webhooks",
+      "search_terms": [
+        "linq",
+        "linq-pp-cli",
+        "Agent-native messaging API for chats, messages, attachments, phone numbers, contact cards, capability checks, and webhooks",
+        "Encrypted local mirror",
+        "sync/search/tail",
+        "Caches Linq chats and messages in an encrypted local mirror with searchable text redacted.",
+        "Generic rich message composer",
+        "compose preview/send",
+        "Builds the documented nested message body for generic Linq text, media, rich links, replies, preferred service, idempotency, effects, and text decorations with shared validation.",
+        "Protocol-aware typing and effects",
+        "typing start/stop/pulse, effects list/preview",
+        "Adds bounded typing indicators plus iMessage effect and decoration discovery for generic Linq chats.",
+        "Webhook subscription operations",
+        "webhooks list/show/add-event/remove-event/set-events/doctor",
+        "Wraps webhook subscription management with event-catalog validation, safe read-modify-write event updates, and drift checks for inbound events such as typing indicators.",
+        "Channel capability check",
+        "capability check",
+        "Resolves addresses to iMessage, RCS, or SMS and reports typing, effects, read-receipt, and rich-message feature support without echoing full addresses.",
+        "Attachment lifecycle workflow",
+        "attachments plan/upload/send-url/send-id/audit-url/cleanup",
+        "Plans direct URL versus pre-upload paths, enforces HTTPS and size limits, sends media parts, explains persistent/ephemeral lifecycle, and exposes cleanup.",
+        "Rich link preview workflow",
+        "link-preview audit/send/metadata",
+        "Audits link-only preview rules, blocks first-outbound link openers, sends rich preview parts, and checks Open Graph/Twitter/title/image metadata.",
+        "Reaction workflow",
+        "react add/remove/custom",
+        "Wraps built-in and custom reactions with validation, part-index support, and outbound sticker blocking.",
+        "Contact-share workflow",
+        "contact-share preflight/send",
+        "Preflights native iMessage Name and Photo Sharing by checking contact card readiness, local prior-outbound evidence when available, and once-per-day prompt behavior."
+      ],
+      "path": "library/social-and-messaging/linq",
+      "release": {
+        "cli_name": "linq-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-24T00:47:48Z",
+        "source_commit": "79ac14ff1cd4ee8b54eb48ee18675cdf2a731300"
+      },
+      "printer": "cathrynlavery",
+      "printer_name": "Cathryn Lavery",
+      "creator": {
+        "handle": "cathrynlavery",
+        "name": "Cathryn Lavery"
+      },
+      "mcp": {
+        "binary": "linq-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 43,
+        "public_tool_count": 0,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "LINQ_API_V3_API_KEY",
+          "LINQ_API_KEY"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
       }
     },
     {
@@ -8802,6 +9545,96 @@
         ],
         "mcp_ready": "full",
         "spec_format": "internal"
+      }
+    },
+    {
+      "name": "mixlayer",
+      "category": "ai",
+      "api": "Mixlayer",
+      "description": "Privacy-first Mixlayer CLI for OpenAI-compatible chat, local PII redaction and vaulting, reasoning-aware model ladders, live model catalog refresh, and ledger-backed cost proofs.",
+      "search_terms": [
+        "mixlayer",
+        "mixlayer-pp-cli",
+        "Privacy-first Mixlayer CLI for OpenAI-compatible chat, local PII redaction and vaulting, reasoning-aware model ladders, live model catalog refresh, and ledger-backed cost proofs.",
+        "Large-data privacy ingest",
+        "shield ingest",
+        "Split large CSV/text inputs into deterministic tranches, redact each tranche through one shared local vault, and reassemble a masked corpus with a manifest.",
+        "Shielded frontier ask",
+        "shield ask",
+        "Redact local data, run an outbound PII tripwire, send only the masked payload to a frontier model, rehydrate the answer locally, and save a privacy receipt.",
+        "PII scan tripwire",
+        "shield scan",
+        "Detect high-risk PII locally with CI-friendly exit codes and no upstream model call.",
+        "Reversible redaction",
+        "shield redact",
+        "Write a masked copy of a file and populate the local token-to-value vault with stable pseudonyms.",
+        "Shape coarsening",
+        "shield restructure",
+        "Drop columns, bucket numeric values, and coarsen dates to reduce re-identification risk before prompting.",
+        "Local vault management",
+        "vault",
+        "List, rehydrate, rotate, or purge the local reversible pseudonym vault without sending values upstream.",
+        "Privacy receipt ledger",
+        "shield audit",
+        "Inspect outbound payload hashes, byte counts, model IDs, masked entity counts, and residual leak counts for shielded sends.",
+        "Model ladder comparison",
+        "ladder",
+        "Run one prompt across selected Mixlayer model rungs, optionally comparing reasoning_content, latency, token usage, and cost.",
+        "Confidence-gated escalation",
+        "escalate",
+        "Start on a cheap rung and climb only when the prior answer appears insufficiently confident.",
+        "Reasoning council",
+        "council",
+        "Fan out to member model rungs and ask a judge model to synthesize answers and flag disagreements.",
+        "Everyday reasoning ask",
+        "ask",
+        "Ask Mixlayer, optionally request reasoning_content, and save prompt, answer, model, seed, token usage, cost, and raw response locally.",
+        "Seed replay",
+        "replay",
+        "Re-run a saved prompt with its original model and seed to check determinism or drift.",
+        "Reasoning grep",
+        "grep",
+        "Search saved prompts, answers, and reasoning traces through the local FTS ledger.",
+        "Cached model DSL",
+        "models query",
+        "Query a local model cache with DSL terms like ctx>=128k tools reasoning, seed it with documented and console-visible model IDs, and optionally refresh it from live /models.",
+        "Read-only ledger SQL",
+        "sql",
+        "Run SELECT-only SQLite queries over the local ledger, vault, audit, ladder, and model cache tables.",
+        "Savings rollup",
+        "savings",
+        "Roll up saved ledger cost against static GPT or Claude frontier baselines.",
+        "Cheap-vs-frontier compare",
+        "compare",
+        "Run a prompt through a cheap rung and frontier rung, report the cost delta, and attach a local-history quality note."
+      ],
+      "path": "library/ai/mixlayer",
+      "release": {
+        "cli_name": "mixlayer-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-24T14:35:18Z",
+        "source_commit": "cd2aa3ef65d28cd886ee62ec158e7831fdf9dd94"
+      },
+      "printer": "cathrynlavery",
+      "printer_name": "Cathryn Lavery",
+      "creator": {
+        "handle": "cathrynlavery",
+        "name": "Cathryn Lavery"
+      },
+      "mcp": {
+        "binary": "mixlayer-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 3,
+        "public_tool_count": 0,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "MIXLAYER_API_KEY"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "docs"
       }
     },
     {
@@ -10786,6 +11619,69 @@
       }
     },
     {
+      "name": "pexels",
+      "category": "media-and-entertainment",
+      "api": "Pexels",
+      "description": "Every Pexels photo, video, and collection endpoint — plus a local store that adds quota forecasting, dedup-aware bulk download, and one-shot attribution exports no other Pexels tool has.",
+      "search_terms": [
+        "pexels",
+        "pexels-pp-cli",
+        "Every Pexels photo, video, and collection endpoint — plus a local store that adds quota forecasting, dedup-aware bulk download, and one-shot attribution exports no other Pexels tool has.",
+        "Quota forecaster",
+        "quota forecast",
+        "Check before a bulk pull whether it fits your remaining hourly/monthly Pexels quota, with a reset ETA.",
+        "Best-fit resolution picker",
+        "resolve",
+        "Pick the smallest photo size or video file that meets a target dimension without upscaling.",
+        "Attribution ledger + SOURCES export",
+        "attribution export",
+        "Emit a SOURCES.md and per-file .meta.json sidecars crediting every photographer in your local download ledger.",
+        "Dedup + rate-aware bulk download",
+        "download",
+        "Bulk-download a query, skipping media already in your ledger and checkpointing each page so a hit quota stops you gracefully.",
+        "Offline re-search of synced media",
+        "search",
+        "Full-text search media you already synced, with stable ordering and no API call.",
+        "Photographer attribution roll-up",
+        "analytics",
+        "Group your synced photos by photographer to review credit balance and licensing coverage."
+      ],
+      "path": "library/media-and-entertainment/pexels",
+      "release": {
+        "cli_name": "pexels-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-24T00:03:22Z",
+        "source_commit": "cf702df807e46cc111e72c0305321f0b0629956a"
+      },
+      "printer": "vcolombo",
+      "printer_name": "Vincent Colombo",
+      "creator": {
+        "handle": "vcolombo",
+        "name": "Vincent Colombo"
+      },
+      "contributors": [
+        {
+          "handle": "tmchow",
+          "name": "Trevin Chow"
+        }
+      ],
+      "mcp": {
+        "binary": "pexels-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 9,
+        "public_tool_count": 8,
+        "auth_type": "api_key",
+        "env_vars": [
+          "PEXELS_API_KEY"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "internal"
+      }
+    },
+    {
       "name": "pipedrive",
       "category": "sales-and-crm",
       "api": "Pipedrive",
@@ -10853,9 +11749,9 @@
       "path": "library/project-management/plane",
       "release": {
         "cli_name": "plane-pp-cli",
-        "version": "2026.6.2",
-        "released_at": "2026-06-21T08:16:26Z",
-        "source_commit": "acb84091ff016c6e7aea5f8cf6956a694aa0d1c7"
+        "version": "2026.6.5",
+        "released_at": "2026-06-25T17:56:53Z",
+        "source_commit": "8d159d34dd38989214bef0d7904a9ab61c4b06f8"
       },
       "printer": "sidorovanthon",
       "printer_name": "Anton Sidorov aka anticodeguy",
@@ -11198,6 +12094,46 @@
       }
     },
     {
+      "name": "policy-intel",
+      "category": "other",
+      "api": "Policy Intel",
+      "description": "Federal rulemaking and policy intelligence recipes for Federal Register search, Regulations.gov dockets, comments, and open comment deadlines.",
+      "search_terms": [
+        "policy-intel",
+        "Policy Intel",
+        "policy-intel-pp-cli",
+        "Federal rulemaking and policy intelligence recipes for Federal Register search, Regulations.gov dockets, comments, and open comment deadlines.",
+        "Federal Register search",
+        "federal-register search",
+        "Searches FederalRegister.gov by term, agency slug, publication date, and limit with source links and legal-status caveats.",
+        "Rules and proposed rules",
+        "rules",
+        "Finds recent Federal Register rules and proposed rules for a topic without requiring users to know Federal Register type codes.",
+        "Regulations.gov docket lookup",
+        "docket",
+        "Fetches docket metadata from Regulations.gov v4 using a configured api.data.gov key or DEMO_KEY for smoke testing.",
+        "Public comment listing",
+        "comments",
+        "Lists public comments for a docket with stable agent-ready JSON and public-field caveats.",
+        "Open comment deadlines",
+        "deadlines",
+        "Finds Regulations.gov documents with comment deadlines from a topic, agency, and starting date."
+      ],
+      "path": "library/other/policy-intel",
+      "release": {
+        "cli_name": "policy-intel-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T22:37:37Z",
+        "source_commit": "65dcc72c59ab6c3d09b72eb18caddc88b31e7ab5"
+      },
+      "printer": "sdhilip200",
+      "printer_name": "Dhilip Subramanian",
+      "creator": {
+        "handle": "sdhilip200",
+        "name": "Dhilip Subramanian"
+      }
+    },
+    {
       "name": "pop",
       "category": "payments",
       "api": "POP",
@@ -11360,6 +12296,58 @@
         ],
         "tool_count": 8,
         "public_tool_count": 8,
+        "auth_type": "none",
+        "env_vars": [],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
+      }
+    },
+    {
+      "name": "prediction-goat",
+      "category": "payments",
+      "api": "Markets",
+      "description": "Every Polymarket and Kalshi market in one slim agent-native CLI, with cross-venue topic search and screens no other...",
+      "search_terms": [
+        "prediction-goat",
+        "Markets",
+        "prediction-goat-pp-cli",
+        "Cross-venue topic bundle",
+        "topic",
+        "Get every related Polymarket and Kalshi market for a topic in one slim ranked ~3KB bundle — kanye-west, argentina, chatgpt-5.",
+        "Mispriced screen",
+        "mispriced",
+        "Find same-outcome markets where Polymarket and Kalshi disagree on implied probability by more than a threshold.",
+        "Cross-venue compare",
+        "compare",
+        "Side-by-side YES/NO and implied probability for the same topic across Polymarket and Kalshi.",
+        "Trending screen",
+        "trending",
+        "Top movers by 24h volume across both venues, ranked.",
+        "Resolving screen",
+        "resolving",
+        "Markets resolving in the next week/month/days, sorted by liquidity.",
+        "Liquid screen",
+        "liquid",
+        "Markets above a normalized volume/liquidity floor across both venues.",
+        "Movers screen",
+        "movers",
+        "Biggest implied-probability deltas over a 24h or 7d window across both venues.",
+        "New screen",
+        "new",
+        "Markets created in the last N days across both venues.",
+        "Markets diff",
+        "Field-by-field structural diff between a specific Polymarket market and a specific Kalshi market."
+      ],
+      "path": "library/payments/prediction-goat",
+      "printer": "mvanhorn",
+      "printer_name": "Matt Van Horn",
+      "mcp": {
+        "binary": "prediction-goat-pp-mcp",
+        "transports": [
+          "stdio"
+        ],
+        "tool_count": 42,
+        "public_tool_count": 42,
         "auth_type": "none",
         "env_vars": [],
         "mcp_ready": "full",
@@ -12418,6 +13406,37 @@
         ],
         "mcp_ready": "full",
         "spec_format": "openapi3"
+      }
+    },
+    {
+      "name": "running-race-results",
+      "category": "other",
+      "api": "Running Race Results",
+      "description": "Look up running race results across NYRR, Mika Timing, Athlinks, and RaceResult by fuzzy race name, bib, runner name, or athlete history.",
+      "search_terms": [
+        "running-race-results",
+        "Running Race Results",
+        "running-race-results-pp-cli",
+        "Look up running race results across NYRR, Mika Timing, Athlinks, and RaceResult by fuzzy race name, bib, runner name, or athlete history.",
+        "Fuzzy race result lookup",
+        "lookup",
+        "Resolve a human race name to the right provider and edition, then return a unified runner result by bib or runner name.",
+        "Cross-event athlete history",
+        "athlete",
+        "Show a runner's race history across Athlinks or NYRR using a name search, racer id, or the optional Athlinks current-user token."
+      ],
+      "path": "library/other/running-race-results",
+      "release": {
+        "cli_name": "running-race-results-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T22:32:48Z",
+        "source_commit": "4d81bf95413e3a36e82e3cf75baaa598aa441e33"
+      },
+      "printer": "jiahongc",
+      "printer_name": "Jiahong Chen",
+      "creator": {
+        "handle": "jiahongc",
+        "name": "Jiahong Chen"
       }
     },
     {
@@ -14297,9 +15316,9 @@
       "path": "library/media-and-entertainment/substack",
       "release": {
         "cli_name": "substack-pp-cli",
-        "version": "2026.6.6",
-        "released_at": "2026-06-21T08:16:26Z",
-        "source_commit": "acb84091ff016c6e7aea5f8cf6956a694aa0d1c7"
+        "version": "2026.6.7",
+        "released_at": "2026-06-23T18:18:47Z",
+        "source_commit": "b32e1926dc4ee0a73f8a8bbf792f4d398b754456"
       },
       "printer": "chirantan",
       "printer_name": "Chirantan Rajhans",
@@ -14531,9 +15550,9 @@
       "path": "library/productivity/superhuman",
       "release": {
         "cli_name": "superhuman-pp-cli",
-        "version": "2026.6.2",
-        "released_at": "2026-06-21T08:16:26Z",
-        "source_commit": "acb84091ff016c6e7aea5f8cf6956a694aa0d1c7"
+        "version": "2026.6.3",
+        "released_at": "2026-06-25T22:33:42Z",
+        "source_commit": "cc05943059c60f3c98f90c82a9289be7ff594c76"
       },
       "printer": "mvanhorn",
       "printer_name": "Matt Van Horn",
@@ -14541,6 +15560,12 @@
         "handle": "mvanhorn",
         "name": "Matt Van Horn"
       },
+      "contributors": [
+        {
+          "handle": "noahlevin",
+          "name": "Noah Levin"
+        }
+      ],
       "mcp": {
         "binary": "superhuman-pp-mcp",
         "transports": [
@@ -15672,6 +16697,63 @@
       }
     },
     {
+      "name": "twitch",
+      "category": "media-and-entertainment",
+      "api": "Twitch Helix",
+      "description": "Twitch Helix API",
+      "search_terms": [
+        "twitch",
+        "Twitch Helix",
+        "twitch-pp-cli",
+        "Twitch Helix API",
+        "Local SQLite Sync",
+        "sync",
+        "Mirror Twitch Helix data (top games, live streams, global emotes, content labels) into a local SQLite store for offline search and analysis",
+        "No Twitch tool persists data; every library and the official twitch-cli is a stateless live passthrough",
+        "Full-Text Search",
+        "search",
+        "Full-text search across locally synced Twitch records",
+        "Requires the local SQLite index; impossible with the stateless API wrappers",
+        "Local Analytics",
+        "analytics",
+        "Group-by and count aggregation over locally synced Twitch data without re-hitting the rate-limited API",
+        "Offline aggregation is absent from every alternative",
+        "Compound Workflows",
+        "workflow",
+        "Chain multiple Helix operations into one agent-friendly command",
+        "Combines several API calls behind a single invocation"
+      ],
+      "path": "library/media-and-entertainment/twitch",
+      "release": {
+        "cli_name": "twitch-pp-cli",
+        "version": "2026.6.1",
+        "released_at": "2026-06-25T07:47:54Z",
+        "source_commit": "57e0f7213e2675d110ac07d25c33922b9176bda1"
+      },
+      "printer": "coopdogGGs",
+      "printer_name": "ryanc00per",
+      "creator": {
+        "handle": "coopdogGGs",
+        "name": "ryanc00per"
+      },
+      "mcp": {
+        "binary": "twitch-pp-mcp",
+        "transports": [
+          "stdio",
+          "http"
+        ],
+        "tool_count": 144,
+        "public_tool_count": 13,
+        "auth_type": "bearer_token",
+        "env_vars": [
+          "TWITCH_CLIENT_ID",
+          "TWITCH_CLIENT_SECRET"
+        ],
+        "mcp_ready": "full",
+        "spec_format": "openapi3"
+      }
+    },
+    {
       "name": "ucp",
       "category": "commerce",
       "api": "UCP",
@@ -15830,6 +16912,40 @@
         ],
         "mcp_ready": "full",
         "spec_format": "internal"
+      }
+    },
+    {
+      "name": "us-data",
+      "category": "other",
+      "api": "US Data",
+      "description": "Official US public data recipes for CPI, unemployment, Census population lookups, BEA industry setup, and region-comparison briefs.",
+      "search_terms": [
+        "us-data",
+        "US Data",
+        "us-data-pp-cli",
+        "Official US public data recipes for CPI, unemployment, Census population lookups, BEA industry setup, and region-comparison briefs.",
+        "CPI snapshot",
+        "cpi",
+        "Fetches the latest BLS CPI series values and reports the latest month, prior month, and calculated percent change with source/freshness notes.",
+        "Unemployment snapshot",
+        "unemployment",
+        "Fetches the BLS national unemployment series by default, with explicit series override support and state guidance.",
+        "Census population lookup",
+        "population",
+        "Resolves supported city/state names to Census ACS profile geography and fetches population when US_DATA_CENSUS_API_KEY is configured.",
+        "Region comparison brief",
+        "compare-regions",
+        "Builds an agent-readable comparison shell for two regions, combining available Census population facts with clear missing-auth notices.",
+        "BEA industry setup",
+        "industry",
+        "Guides agents through BEA industry/regional data setup and runs BEA requests when US_DATA_BEA_API_KEY is configured."
+      ],
+      "path": "library/other/us-data",
+      "printer": "sdhilip200",
+      "printer_name": "Dhilip Subramanian",
+      "creator": {
+        "handle": "sdhilip200",
+        "name": "Dhilip Subramanian"
       }
     },
     {
@@ -16648,9 +17764,9 @@
       "path": "library/social-and-messaging/x-twitter",
       "release": {
         "cli_name": "x-twitter-pp-cli",
-        "version": "2026.6.10",
-        "released_at": "2026-06-18T03:04:04Z",
-        "source_commit": "bb795739ffc12c4f7cfcaa2b00eca6b0d39b3653"
+        "version": "2026.6.11",
+        "released_at": "2026-06-24T00:02:25Z",
+        "source_commit": "8649d944b0e138dd3e0133ee58ae036dcb941335"
       },
       "printer": "cathrynlavery",
       "printer_name": "Cathryn Lavery",
@@ -16813,9 +17929,9 @@
       "path": "library/commerce/yahoo-finance",
       "release": {
         "cli_name": "yahoo-finance-pp-cli",
-        "version": "2026.6.2",
-        "released_at": "2026-06-21T08:16:26Z",
-        "source_commit": "acb84091ff016c6e7aea5f8cf6956a694aa0d1c7"
+        "version": "2026.6.3",
+        "released_at": "2026-06-25T22:35:32Z",
+        "source_commit": "53be22b50d21d8902bba1fd5279e0a1d92976238"
       },
       "printer": "tmchow",
       "printer_name": "Trevin Chow",
