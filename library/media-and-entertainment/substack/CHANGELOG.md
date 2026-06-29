@@ -2,6 +2,14 @@
 
 This file is maintained by printing-press-library release automation. Do not hand-edit release sections in normal PRs.
 
+## 2026.6.7 - 2026-06-23
+
+- fix(substack): route draft APIs through global endpoint (#1336).
+
+## 2026.6.6 - 2026-06-21
+
+- fix(catalog): require Go 1.26.4 across published modules (#1308).
+
 ## 2026.6.5 - 2026-06-16
 
 - fix(substack): route writer endpoints globally (#1240).
